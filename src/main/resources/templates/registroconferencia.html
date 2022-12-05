@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}" lang="en">
+
+<head>
+
+    <!-- CSS
+        ================================================== -->
+    <link rel="stylesheet" href="vendors/formvalidation/dist/css/FormValidation.min.css">
+    <link rel="stylesheet" href="vendors/intlTelInput/css/intlTelInput.min.css">
+
+    <!-- Javascript Files
+        ================================================== -->
+    <script type="text/javascript" src="vendors/formvalidation/dist/js/FormValidation.min.js"></script>
+    <script type="text/javascript" src="vendors/formvalidation/dist/js/plugins/Bootstrap3.js"></script>
+    <script type="text/javascript" src="vendors/intlTelInput/js/intlTelInput-jquery.min.js"></script>
+    <script type="text/javascript" src="js/negocio/registroconferencia.js"></script>
+    <script type="text/javascript" src="js/bloqUI.js"></script>
+    <script type="text/javascript" src="vendors/bootbox/js/bootbox.all.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+    <div layout:fragment="content" th:remove="tag">
+
+        <div id="page-banner-area" class="page-banner-area" style="background-image:url(images/banner/banner1.jpg)">
+            <!-- Subpage title start -->
+            <div class="page-banner-title">
+                <div class="text-center">
+                    <h2>Conferencia de Pastores y Líderes</h2>
+                </div>
+            </div><!-- Subpage title end -->
+        </div><!-- Banner end -->
+
+        <section id="main-container" class="main-container">
+            <div class="container">
+
+                <div id="div_formulario" class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <div class="sidebar sidebar-left">
+                            <div class="widget contact-info">
+                                <div class="contact-info-box">
+                                    <i class="fa fa-map-marker">&nbsp;</i>
+                                    <div class="contact-info-box-content">
+                                        <h4>Lugar y horario</h4>
+                                        <p th:text="${conferencia.lugar} + ' - ' + ${conferencia.horario}"></p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-info-box">
+                                    <i class="fa fa-envelope-o">&nbsp;</i>
+                                    <div class="contact-info-box-content">
+                                        <h4>Correo</h4>
+                                        <p th:text="${conferencia.correo}"></p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-info-box">
+                                    <i class="fa fa-whatsapp">&nbsp;</i>
+                                    <div class="contact-info-box-content">
+                                        <h4>WhatsApp</h4>
+                                        <p th:text="${conferencia.contacto}"></p>
+                                    </div>
+                                </div>
+
+                            </div><!-- Widget end -->
+                        </div><!-- Sidebar left end -->
+                    </div><!-- Sidebar col end -->
+
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <form id="form_conferencia" action="#" method="post" role="form">
+                            <input type="hidden" id="hid_conferencia" name="hid_conferencia" th:value="${conferencia.id}">
+                            <div class="error-container"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Nombres</label>
+                                        <input class="form-control form-control-name" name="txt_nombres" id="txt_nombres" placeholder="" type="text" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Apellidos</label>
+                                        <input class="form-control form-control-name" name="txt_apellidos" id="txt_apellidos" placeholder="" type="text" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Correo</label>
+                                        <input class="form-control" name="txt_correo" id="txt_correo" placeholder="" type="email" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Celular</label>
+                                        <input class="form-control" name="txt_celular" id="txt_celular" placeholder="" type="tel" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Edad</label>
+                                        <input class="form-control" name="txt_edad" id="txt_edad" placeholder="" type="number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-formulario">País</label>
+                                        <select class="form-control" name="sel_pais" id="sel_pais" required>
+                                            <option value="">Seleccione</option>
+                                            <option th:each="pais : ${paises}"
+                                                    th:value="${pais.code}"
+                                                    th:text="${pais.descripcion}" th:selected="${pais.id==conferencia.pais.id}">
+                                            </option>
+                                        </select>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="glyphicon inline-flag flag ad"></i>
+                                        <label class="label-formulario">¿Cómo conoció al profeta?</label>
+                                        <select class="form-control" name="sel_fuente" id="sel_fuente" required>
+                                            <option value=""><i class="glyphicon inline-flag flag ad"></i>Seleccione</option>
+                                            <option th:each="fuente : ${fuentes}"
+                                                    th:value="${fuente.id}"
+                                                    th:text="${fuente.descripcion}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Iglesia</label>
+                                        <input class="form-control" name="txt_iglesia" id="txt_iglesia" placeholder="" type="text" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="label-formulario">Cargo</label>
+                                        <select class="form-control" name="sel_cargo" id="sel_cargo" required>
+                                            <option value="">Seleccione</option>
+                                            <option th:each="cargo : ${cargos}"
+                                                    th:value="${cargo.id}"
+                                                    th:text="${cargo.descripcion}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-12 checkbox-inline"><input name="rad_suscripcion" id="rad_suscripcion" type="checkbox" value="true">Marcando esta casilla acepto suscribirme para recibir novedades y promociones de la iglesia Ministerio Arrepentimiento y Santidad. Yo entiendo que puedo cancelar la suscripción en cualquier momento.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-left"><br>
+                                <button id="btn_registro" class="btn btn-primary solid blank" type="button">Registrarse</button>
+                            </div>
+                        </form>
+                    </div><!-- Col end -->
+
+                </div><!-- Content row -->
+
+                <div id="div_constancia" class="d-none">
+
+                    <div class="row text-center sponsor-info">
+                        <h2 id="h2_conferencia" class="section-title">Conferencia de Pastores y Líderes de Republica Dominicana</h2>
+                        <h4 id="h4_codigo_participante" class="sponsor-name">Código de Participante N° 1005632589</h4>
+                    </div><!--/ Title row end -->
+
+                    <div class="row text-center">
+                        <div class="ts-speaker-image">
+                            <img id="img_qr" class="img-responsive center-block"/>
+                        </div><!--Image end -->
+
+                        <div class="row text-center sponsor-info line-horizontal">
+                            <span class="constancia-icon-blue">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </span>
+                            <h4 id="h4_participante" class="sponsor-name">Jeyson Junior Ventura Aguilar</h4>
+                        </div><!--/ Title row end -->
+                        <div class="row">
+                            <span class="constancia-icon-blue">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                            </span>
+                            <div class="col-md-12 parrafo-constancia">
+                                <p id="p_lugar">La Romanda RD.</p>
+                            </div>
+                            <div class="col-md-12 parrafo-constancia line-horizontal">
+                                <p id="p_horario">06:00p.m - 09:00 p.m</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <span class="constancia-icon-red">
+                                <i class="glyphicon glyphicon-qrcode"></i>
+                            </span>
+                            <div class="col-md-12 advertencia-constancia">
+                                <p>Muestra el código QR desde tu celular para poder ingresar a la conferencia.</p>
+                            </div>
+                            <div class="col-md-12 advertencia-constancia line-horizontal">
+                                <p>No necesitas imprimir este documento.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span class="constancia-icon-red">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                            </span>
+                            <div class="col-md-12 advertencia-constancia">
+                                <p>Recuerde revisar su correo electronico con la constancia de su registro.</p>
+                            </div>
+                            <div class="col-md-12 advertencia-constancia line-horizontal">
+                                <p>Revisar en SPAM o Correos no Deseados.</p>
+                            </div>
+                        </div>
+                        <div class="row sponsor-info">
+                            <div class="col-md-12">
+                                <h4 class="sponsor-name">Últimas novedades en nuestro Canal de Telegram </h4>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="constancia-icon-blue">
+                                  <i class="fa fa-telegram"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12">
+                                <a class="btn btn-primary solid blank" th:href="${conferencia.linkTelegram}" target="_blank">Unirme a Telegram</a>
+                            </div>
+                        </div>
+                    </div><!-- Col end -->
+
+                </div>
+
+            </div><!-- Conatiner end -->
+        </section><!-- Main container end -->
+    </div>
+</body>
+</html>
