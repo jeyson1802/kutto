@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}" lang="en">
+
+<head>
+</head>
+
+<body>
+
+    <div layout:fragment="content" th:remove="tag">
+
+            <section class="breadcrumb-area breadcrumb-bg"
+                     style="background-image: url(&quot;img/bg/breadcrumb_bg.jpg&quot;);">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="breadcrumb-content"><h2 class="title">Detalle del Producto</h2>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#/">Inicio</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Detalle del Producto</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="shop-details-area pt-110 pb-50">
+                <div class="container">
+                    <div class="shop-details-wrap">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="shop-details-img-wrap">
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane show active" id="item-one" role="tabpanel"
+                                             aria-labelledby="item-one-tab">
+                                            <div class="shop-details-img">
+                                                <img th:if="${articulo.imagen == null}" class="img-detail"  src="img/product/sinimagen.jpg" alt=""></a>
+                                                <img th:if="${articulo.imagen != null}" class="img-detail"  th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(articulo.imagen)}" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="shop-details-content"><span th:text="${articulo.tipoArticulo.descripcion}"></span>
+                                    <h2 class="title" th:text="${articulo.descripcionCorta}"></h2>
+                                    <div class="shop-details-price">
+                                        <h2 class="price" th:text="'S/ ' + ${articulo.precioUnitario}"></h2>
+                                        <h5 th:if="${articulo.stock > 0}" th:text="${articulo.stock} + ' disponibles'" class="stock-status"></h5>
+                                        <h5 th:if="${articulo.stock == 0}" class="stock-status">AGOTADO</h5>
+                                    </div>
+                                    <p th:text="${articulo.descripcionCorta}"></p>
+                                    <div class="shop-details-bottom">
+                                        <ul>
+                                            <li class="sd-category"><span class="title">Categoría :</span><a href="#/shop" th:text="${articulo.tipoArticulo.descripcion}"></a></li>
+                                            <li class="sd-sku"><span class="title">SKU :</span><a href="#/shop" th:text="'H# ' + ${articulo.codigoEstandar}"></a>
+                                            </li>
+                                            <li class="sd-share"><span class="title">Compartir :</span><a href="/#"><i
+                                                    class="fab fa-facebook-f"></i></a><a href="/#"><i
+                                                    class="fab fa-twitter"></i></a><a href="/#"><i
+                                                    class="fab fa-linkedin-in"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="product-desc-wrap">
+                                <ul class="nav nav-tabs" id="myTabTwo" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" id="details-tab" data-toggle="tab"
+                                                            href="/#details" role="tab" aria-controls="details"
+                                                            aria-selected="true">Detalles</a></li>
+                                </ul>
+                                <div class="tab-content" id="myTabContentTwo">
+                                    <div class="tab-pane fade show active" id="details" role="tabpanel"
+                                         aria-labelledby="details-tab">
+                                        <div class="product-desc-content">
+                                            <p th:text="${articulo.descripcionLarga}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="related-products-wrap"><h2 class="title">Productos Relacionados</h2>
+                        <div class="slick-slider row related-product-active slick-initialized" dir="ltr">
+                            <div class="slick-list">
+                                <div class="slick-track"
+                                     style="width: 4312px; opacity: 1; transform: translate3d(5px, 0px, 0px);">
+                                    <div th:each="articulo, custStat: ${listArticuloRelacionado}" th:attr="data-index=${custStat.index-4}" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="false" style="width: 308px;">
+                                        <div>
+                                            <div class="col-lg" tabindex="-1"
+                                                 style="width: 100%; display: inline-block;">
+                                                <div class="shop-item mb-55">
+                                                    <div class="shop-thumb"><a href="#/shop-details">
+                                                        <img th:if="${articulo.imagen == null}" src="img/product/sinimagen.jpg" alt=""></a>
+                                                        <img th:if="${articulo.imagen != null}" th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(articulo.imagen)}" alt=""></a>
+                                                    </a></div>
+                                                    <div class="shop-content"><span th:text="${articulo.tipoArticulo.descripcion}"></span><h4 class="title">
+                                                        <a th:href="@{'/producto?codigoArticulo=' + ${articulo.codigoArticulo} + '&codigoTipoArticulo=' + ${codigoTipoArticulo}}" th:text="${articulo.titulo}"></a></h4>
+                                                        <div class="shop-content-bottom"><span
+                                                                class="price" th:text="'S/ ' + ${articulo.precioUnitario}"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </div>
+</body>
+</html>

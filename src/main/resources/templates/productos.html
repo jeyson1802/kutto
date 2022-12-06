@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}" lang="en">
+
+<head>
+</head>
+
+<body>
+
+    <div layout:fragment="content" th:remove="tag">
+
+            <section class="breadcrumb-area breadcrumb-bg"
+                     style="background-image: url(&quot;img/bg/breadcrumb_bg.jpg&quot;);">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="breadcrumb-content"><h2 class="title">Productos</h2>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#/">Inicio</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Productos</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="shop-area pt-110 pb-110">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 col-md-8 order-2 order-lg-0">
+                            <aside class="shop-sidebar">
+                                <div class="widget"><h4 class="sidebar-title">Categorías</h4>
+                                    <div class="shop-cat-list">
+                                        <ul th:each="tipoArticulo, custStat: ${listTipoArticulo}">
+                                            <li th:if="${custStat.index == 0}"><a th:href="@{'/productos?pageNo=1&codigoTipoArticulo='}" th:text="'TODOS'"></a></li>
+                                            <li><a th:href="@{'/productos?pageNo=1&codigoTipoArticulo=' + ${tipoArticulo.codigoTipoArticulo}}" th:text="${tipoArticulo.descripcion}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="widget shop-widget-banner"><a href="#/shop"><img
+                                        src="img/product/shop_add.jpg" alt=""></a></div>
+                            </aside>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="shop-wrap">
+                                <div class="shop-page-meta mb-30">
+                                    <div class="shop-grid-menu">
+                                        <ul>
+                                            <li class="active"><a href="#"><i class="fas fa-th"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="shop-showing-result"><p th:text="'Total artículos del ' + ${desde} + ' al ' + ${hasta} + ' de ' + ${totalElementos}"></p></div>
+                                    <div th:if="${totalPaginas > 1}" class="shop-pagination">
+                                        <ul>
+                                            <li th:each="i: ${#numbers.sequence(1, totalPaginas)}" th:attr="class=${paginaActual == i ? 'active' : ''}">
+                                                    <a th:href="@{'/productos?pageNo=' + ${i} + '&codigoTipoArticulo=' + ${codigoTipoArticulo}}">[[${i}]]</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div th:each="articulo: ${listArticulo}" class="col-lg-4 col-sm-6">
+                                        <div class="shop-item mb-55">
+                                            <div class="shop-thumb"><a href="#/shop-details">
+                                                <img th:if="${articulo.imagen == null}" src="img/product/sinimagen.jpg" alt=""></a>
+                                                <img th:if="${articulo.imagen != null}" th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(articulo.imagen)}" alt=""></a>
+                                            </div>
+                                            <div class="shop-content"><span th:text="${articulo.tipoArticulo.descripcion}"></span><h4 class="title"><a
+                                                    th:href="@{'/producto?codigoArticulo=' + ${articulo.codigoArticulo} + '&codigoTipoArticulo=' + ${codigoTipoArticulo}}" th:text="${articulo.titulo}"></a></h4>
+                                                <div class="shop-content-bottom"><span class="price" th:text="'S/ ' + ${articulo.precioUnitario}"></span><span
+                                                        class="add-cart"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="shop-page-meta">
+                                    <div class="shop-grid-menu">
+                                        <ul>
+                                            <li class="active"><a href="#"><i class="fas fa-th"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="shop-showing-result"><p th:text="'Total artículos del ' + ${desde} + ' al ' + ${hasta} + ' de ' + ${totalElementos}"></p></div>
+                                    <div th:if="${totalPaginas > 1}" class="shop-pagination">
+                                        <ul>
+                                            <li th:each="i: ${#numbers.sequence(1, totalPaginas)}" th:attr="class=${paginaActual == i ? 'active' : ''}">
+                                                <a th:href="@{'/productos?pageNo=' + ${i} + '&codigoTipoArticulo=' + ${codigoTipoArticulo}}">[[${i}]]</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

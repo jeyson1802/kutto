@@ -3,31 +3,48 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <title>Cruzada Profeta David Owuor</title>
-
-    <!--Favicon-->
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <meta charset="utf-8">
+    <link rel="icon" href="/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="kutto-react-app">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="/manifest.json">
 
     <th:block th:replace="fragments/estilos :: estilos"/>
     <th:block th:replace="fragments/scripts :: scripts"/>
 
+    <title>kutto</title>
+
+    <style>/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ== */</style>
 </head>
 
 <body>
 
-    <div class="page-loader">
-        <div class="loader"><img src="images/logo-sm.svg" alt=""></div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="img/preloader.gif" alt="">
     </div>
+    <!-- Preloader-end -->
 
-    <div class="body-inner">
-        <th:block th:replace="fragments/header :: header" />
-        <th:block layout:fragment="content" />
-        <th:block th:replace="fragments/footer :: footer" />
+    <!-- Scroll-top -->
+    <button class="scroll-top scroll-to-target" data-target="html">
+        <i class="fas fa-angle-up"></i>
+    </button>
+
+    <div id="root">
+        <div class="app">
+            <th:block th:replace="fragments/header :: header" />
+            <main>
+                <th:block layout:fragment="content" />
+            </main>
+            <th:block th:replace="fragments/footer :: footer" />
+        </div>
     </div>
 
 </body>

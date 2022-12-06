@@ -13,4 +13,21 @@ public class Constante {
 	public static final String INDICADOR_TERMINADO = "1";
 	public static final String INDICADOR_NO_TERMINADO = "0";
 
+	public static final Integer COD_ACTIVO = 1;
+	public static final Integer COD_INACTIVO = 0;
+
+	public static final String PARAM_FECHA_RESERVA = "fechaReserva";
+
+	public static final String PARAM_BUSQUEDA = "busqueda";
+
+	public static final String COD_ESTADO_CITA_RESERVADO = "EC01";
+
+	public static final String USUARIO_WEB = "WEB";
+
+	public static final Integer COD_INDICADOR_NO_DISPONIBLE = 0;
+
+	public static final Integer COD_INDICADOR_DISPONIBLE = 1;
+
+	public static final String PREFIJO_CITA = "C";
+
 }

@@ -2,45 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <body>
-	<header th:fragment="header" id="header" class="header header-transparent">
-		<div class="container">
-			<div class="row">
-				<div class="navbar-header">
-					<div class="logo">
-						<a href="/">
-							<img src="images/logo.png" alt="">
-						</a>
-					</div><!-- logo end -->
-				</div><!-- Navbar header end -->
+	<header th:fragment="header" id="header">
 
-				<div class="site-nav-inner">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-
-					<nav class="collapse navbar-collapse navbar-responsive-collapse pull-right">
-
-						<ul class="nav navbar-nav">
-
-							<li class="active"><a href="/">Inicio</a></li>
-
-							<li><a href="/kutto">Profeta David Owuor</a></li>
-
-							<li><a href="/preguntasfrecuentes">Preguntas Frecuentes</a></li>
-
-							<li class="header-ticket">
-								<a class="ticket-btn btn-primary" href="/registroconferencia"><i class="fa fa-ticket"></i> Conferencia</a>
-							</li>
-
-						</ul><!--/ Nav ul end -->
-
-					</nav><!--/ Collapse end -->
-
-				</div><!-- Site nav inner end -->
-			</div><!-- Row end -->
-		</div><!-- Container end -->
-	</header><!--/ Header end -->
+			<div class="header-top-area">
+				<div class="container custom-container">
+					<div class="row align-items-center">
+						<div class="col-md-7">
+							<div class="header-top-left">
+								<ul>
+									<li>Call us: 747-800-9880</li>
+									<li><i class="far fa-clock"></i>Opening Hours: 7:00 am - 9:00 pm (Mon - Sun)</li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="header-top-right">
+								<ul class="header-top-social">
+									<li class="follow">Follow :</li>
+									<li><a href="/#"><i class="fab fa-facebook-f"></i></a></li>
+									<li><a href="/#"><i class="fab fa-twitter"></i></a></li>
+									<li><a href="/#"><i class="fab fa-instagram"></i></a></li>
+									<li><a href="/#"><i class="fab fa-linkedin-in"></i></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="sticky-header" class="menu-area">
+				<div class="container custom-container">
+					<div class="row">
+						<div class="col-12">
+							<div class="mobile-nav-toggler"><i class="fas fa-bars"></i></div>
+							<div class="menu-wrap">
+								<nav class="menu-nav show">
+									<div class="logo"><a href="#/"><img src="img/logo/logo.png" alt=""></a></div>
+									<div class="navbar-wrap main-menu d-none d-lg-flex">
+										<ul class="navigation">
+											<li class="active"><a href="/">Inicio</a></li>
+											<li><a href="/productos?pageNo=1&codigoTipoArticulo=">Productos</a></li>
+											<li><a href="/adopcion">Adopción</a></li>
+											<li><a href="/buscar">Buscar Reserva</a></li>
+										</ul>
+									</div>
+									<div class="header-action d-none d-md-block">
+										<ul>
+											<li class="header-btn"><a class="btn" href="/reserva">Sacar Cita<img src="img/icon/w_pawprint.png" alt=""></a></li>
+										</ul>
+									</div>
+								</nav>
+							</div>
+							<div class="mobile-menu">
+								<nav class="menu-box">
+									<div class="close-btn"><i class="fas fa-times"></i></div>
+									<div class="nav-logo"><a href="#/"><img src="img/logo/logo.png" alt="" title="true"></a>
+									</div>
+									<div class="menu-outer">
+										<ul class="navigation">
+											<li class="active"><a href="/">Inicio</a></li>
+											<li><a href="/productos?pageNo=1&codigoTipoArticulo=">Productos</a></li>
+											<li><a href="/adopcion">Adopción</a></li>
+											<li><a href="/buscar">Buscar Reserva</a></li>
+										</ul>
+									</div>
+									<div class="social-links">
+										<ul class="clearfix">
+											<li><a href="/#"><span class="fab fa-twitter"></span></a></li>
+											<li><a href="/#"><span class="fab fa-facebook-square"></span></a></li>
+											<li><a href="/#"><span class="fab fa-pinterest-p"></span></a></li>
+											<li><a href="/#"><span class="fab fa-instagram"></span></a></li>
+											<li><a href="/#"><span class="fab fa-youtube"></span></a></li>
+										</ul>
+									</div>
+								</nav>
+							</div>
+							<div class="menu-backdrop"></div>
+						</div>
+					</div>
+				</div>
+				<div class="header-shape" style="background-image: url(&quot;img/bg/header_shape.png&quot;);"></div>
+			</div>
+	</header>
 </body>

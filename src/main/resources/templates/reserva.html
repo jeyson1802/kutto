@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}" lang="en">
+
+<head>
+    <script th:src="@{/js/reserva.js}" ></script>
+</head>
+
+<body>
+
+    <div layout:fragment="content" th:remove="tag">
+
+        <section id="sec_breadcumb" class="breadcrumb-area breadcrumb-bg"
+                 style="background-image: url(&quot;img/bg/breadcrumb_bg.jpg&quot;);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-content">
+                            <h2 class="title">Contact Us</h2>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="sec_body" class="contact-area pt-110 pb-110">
+            <div class="container">
+                <div class="container-inner-wrap">
+                    <div class="row justify-content-center justify-content-lg-between">
+                        <div class="col-lg-6 col-md-8 order-2 order-lg-0">
+                            <div class="contact-title mb-20">
+                                <h5 class="sub-title">Contact Us</h5>
+                                <h2 class="title">Let's Talk Question<span>.</span></h2>
+                            </div>
+                            <div class="contact-wrap-content">
+                                <p>The domestic dog is a doiated dendant of the wolf. The
+                                    dog derived from an ancient, extinct wolf, and the modern grey.
+                                </p>
+                                <form type="POST" class="contact-form">
+                                    <div class="form-grp"><label for="txt_nombres">Nombres <span>*</span></label>
+                                        <input type="text" id="txt_nombres" name="txt_nombres" required>
+                                    </div>
+                                    <div class="form-grp"><label for="txt_correo">Correo <span>*</span></label>
+                                        <input type="email" id="txt_correo" name="txt_correo" required>
+                                    </div>
+                                    <div class="form-grp"><label for="txt_documento">Documento de Identidad<span>*</span></label>
+                                        <input type="text" id="txt_documento" name="txt_documento" required>
+                                    </div>
+                                    <div class="form-grp">
+                                        <label for="sel_fecha">Fechas Disponibles<span>*</span></label>
+                                        <select class="form-control" name="sel_fecha" id="sel_fecha" required>
+                                            <option value="">Seleccione</option>
+                                            <option th:each="fecha : ${fechasDisponibles}" th:value="${#dates.format(fecha, 'yyyy-MM-dd')}" th:text="${#dates.format(fecha, 'dd/MM/yyyy')}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-grp">
+                                        <label for="sel_hora">Horarios<span>*</span></label>
+                                        <select class="form-control" name="sel_hora" id="sel_hora" required>
+                                            <option value="">Seleccione</option>
+                                        </select>
+                                    </div>
+                                    <button id="btn_reservar" type="button" class="btn rounded-btn">Reservar</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-6 col-md-8">
+                            <div class="contact-info-wrap">
+                                <div class="contact-img"><img src="img/images/contact_img.png" alt=""></div>
+                                <div class="contact-info-list">
+                                    <ul>
+                                        <li>
+                                            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                                            <div class="content">
+                                                <p>W84 New Park Lan, New York, NY 4586 United
+                                                    States
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                                            <div class="content">
+                                                <p>+9 (256) 254 9568</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="icon"><i class="fas fa-envelope-open"></i></div>
+                                            <div class="content">
+                                                <p>Contact@ info.com</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="contact-social">
+                                    <ul>
+                                        <li><a href="/#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="/#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="/#"><i class="fab fa-linkedin-in"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="sec_message" class="adoption-shop-area d-none">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-9">
+                        <div class="section-title text-center mb-65">
+                            <div class="section-icon"><img src="img/icon/pawprint.png" alt=""></div>
+                            <h5 class="sub-title" id="h5_codigo_reserva"></h5>
+                            <h2 class="title">Reserva realizada con éxito</h2>
+                            <p>Par mayor información puede contactarnos por nuestras redes sociales o al número +51 941377889</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

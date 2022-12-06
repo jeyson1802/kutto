@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}" lang="en">
+
+<head>
+    <script th:src="@{/js/buscarreserva.js}" ></script>
+</head>
+
+<body>
+
+    <div layout:fragment="content" th:remove="tag">
+
+        <section class="breadcrumb-area breadcrumb-bg"
+                 style="background-image: url(&quot;img/bg/breadcrumb_bg.jpg&quot;);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-content"><h2 class="title">Get Adoption</h2>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Adoption</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="div_buscar" class="newsletter-area pb-110" style="padding-top: 50px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="newsletter-wrap">
+                            <div class="newsletter-content"><h2 class="title">Búsqueda</h2>
+                                <p><span>*</span> Código de reserva o documento.</p></div>
+                            <div class="newsletter-form">
+                                <form><input type="email" id="txt_busqueda" name="txt_busqueda" placeholder="Ingresa código o documento">
+                                    <button id="btn_buscar" type="button" class="btn">Buscar</button>
+                                </form>
+                            </div>
+                            <div class="newsletter-shape"><img src="img/images/newsletter_shape01.png" alt=""></div>
+                            <div class="newsletter-shape shape-two"><img src="img/images/newsletter_shape02.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="sec_message" class="adoption-shop-area d-none">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-9">
+                        <div class="section-title text-center mb-65">
+                            <div class="section-icon"><img src="img/icon/pawprint.png" alt=""></div>
+                            <h5 class="sub-title" id="h5_codigo_reserva"></h5>
+                            <h2 class="title" id="h2_data_nombres"></h2>
+                            <h3 id="h3_data_fecha"></h3>
+                            <h3 id="h3_data_hora"></h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
