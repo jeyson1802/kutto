@@ -1,6 +1,5 @@
 package com.kutto.plataforma.repository;
 
-import com.kutto.plataforma.model.Pais;
 import com.kutto.plataforma.model.TipoArticulo;
 import org.springframework.data.repository.CrudRepository;
 

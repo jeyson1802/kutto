@@ -1,14 +1,10 @@
 package com.kutto.plataforma.rest;
 
-import antlr.StringUtils;
 import com.kutto.plataforma.dto.CitaDisponibleDto;
 import com.kutto.plataforma.dto.CitaDto;
-import com.kutto.plataforma.dto.RegistroConferenciaDto;
-import com.kutto.plataforma.request.RequestRegistroConferencia;
 import com.kutto.plataforma.request.RequestRegistroReserva;
 import com.kutto.plataforma.service.CitaDisponibleService;
 import com.kutto.plataforma.service.CitaService;
-import com.kutto.plataforma.service.RegistroConferenciaService;
 import com.kutto.plataforma.util.Constante;
 import com.kutto.plataforma.util.DateUtil;
 import com.kutto.plataforma.util.StringUtil;
@@ -20,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
 
 @RestController

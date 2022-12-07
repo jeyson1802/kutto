@@ -22,21 +22,6 @@ import java.util.*;
 public class PrincipalController {
 
     @Autowired
-    private PaisService paisService;
-
-    @Autowired
-    private CargoService cargoService;
-
-    @Autowired
-    private FuenteService fuenteService;
-
-    @Autowired
-    private ConferenciaService conferenciaService;
-
-    @Autowired
-    private QRCodeService qrCodeService;
-
-    @Autowired
     private TipoArticuloService tipoArticuloService;
 
     @Autowired

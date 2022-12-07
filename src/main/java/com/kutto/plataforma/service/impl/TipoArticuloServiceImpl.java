@@ -1,12 +1,8 @@
 package com.kutto.plataforma.service.impl;
 
-import com.kutto.plataforma.dto.PaisDto;
 import com.kutto.plataforma.dto.TipoArticuloDto;
-import com.kutto.plataforma.model.Pais;
 import com.kutto.plataforma.model.TipoArticulo;
-import com.kutto.plataforma.repository.PaisRepository;
 import com.kutto.plataforma.repository.TipoArticuloRepository;
-import com.kutto.plataforma.service.PaisService;
 import com.kutto.plataforma.service.TipoArticuloService;
 import com.kutto.plataforma.util.Constante;
 import org.apache.logging.log4j.LogManager;

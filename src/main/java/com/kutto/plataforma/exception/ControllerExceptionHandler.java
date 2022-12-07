@@ -1,6 +1,5 @@
 package com.kutto.plataforma.exception;
 
-import com.kutto.plataforma.rest.RegistroConferenciaRestController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
