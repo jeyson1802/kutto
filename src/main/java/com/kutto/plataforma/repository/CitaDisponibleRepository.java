@@ -14,4 +14,6 @@ public interface CitaDisponibleRepository extends CrudRepository<CitaDisponible,
 
     List<CitaDisponible> findByFechaReservaAndDisponibleAndActivoOrderByHoraReservaAsc(Date fechaReserva, Integer disponible, Integer activo) throws Exception;
 
+    List<CitaDisponible> findByActivoOrderByCodigoCitaDisponibleDesc(Integer activo) throws Exception;
+
 }

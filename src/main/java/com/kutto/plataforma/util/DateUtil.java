@@ -32,7 +32,7 @@ public class DateUtil {
         return stringToDate(fechaString, "yyyy-MM-dd");
     }
 
-    public static Time stringToTimeHHMMSS(String timeString) {
-        return stringToTime(timeString, "HH:mm:ss");
+    public static Time stringToTimeHHMM(String timeString) {
+        return stringToTime(timeString, "HH:mm");
     }
 }

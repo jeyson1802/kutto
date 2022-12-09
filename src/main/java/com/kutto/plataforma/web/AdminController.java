@@ -53,4 +53,10 @@ public class AdminController {
 
         return "tipoarticulo";
     }
+
+    @GetMapping("/horarios")
+    public String horarios(Model model) throws Exception {
+
+        return "horarios";
+    }
 }

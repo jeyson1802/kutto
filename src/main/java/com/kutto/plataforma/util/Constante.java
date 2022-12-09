@@ -34,5 +34,6 @@ public class Constante {
 	public static final String PREFIJO_ARTICULO = "AR";
 
 	public static final String PREFIJO_TIPO_ARTICULO = "T";
+	public static final String PREFIJO_CITA_DISPONIBLE = "CD";
 
 }
