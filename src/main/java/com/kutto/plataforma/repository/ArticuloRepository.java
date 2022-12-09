@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ArticuloRepository extends JpaRepository<Articulo, String> {
 
-    Page <Articulo> findByTipoArticuloCodigoTipoArticuloAndActivoOrderByPrecioUnitarioAsc(String codigoTipoArticulo, Integer activo, Pageable pageable);
+    Page <Articulo> findByTipoArticuloCodigoTipoArticuloAndActivoOrderByCodigoArticuloDesc(String codigoTipoArticulo, Integer activo, Pageable pageable);
 
-    Page<Articulo> findByActivoOrderByPrecioUnitarioAsc(Integer activo, Pageable pageable);
+    Page<Articulo> findByActivoOrderByCodigoArticuloDesc(Integer activo, Pageable pageable);
+
+    List<Articulo> findByActivoOrderByCodigoArticuloDesc(Integer activo);
 }

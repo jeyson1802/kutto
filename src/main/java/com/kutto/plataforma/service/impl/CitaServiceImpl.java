@@ -1,6 +1,5 @@
 package com.kutto.plataforma.service.impl;
 
-import com.kutto.plataforma.dto.CitaDisponibleDto;
 import com.kutto.plataforma.dto.CitaDto;
 import com.kutto.plataforma.model.Cita;
 import com.kutto.plataforma.model.CitaDisponible;
@@ -8,22 +7,19 @@ import com.kutto.plataforma.model.EstadoCita;
 import com.kutto.plataforma.repository.CitaDisponibleRepository;
 import com.kutto.plataforma.repository.CitaRepository;
 import com.kutto.plataforma.repository.EstadoCitaRepository;
+import com.kutto.plataforma.request.RequestModificarCita;
 import com.kutto.plataforma.request.RequestRegistroReserva;
-import com.kutto.plataforma.service.CitaDisponibleService;
 import com.kutto.plataforma.service.CitaService;
 import com.kutto.plataforma.service.ParametricaService;
 import com.kutto.plataforma.util.Constante;
-import com.kutto.plataforma.util.DateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,5 +85,36 @@ public class CitaServiceImpl implements CitaService {
         List<CitaDto> listCitaDto = listCita.stream().map(cita -> modelMapper.map(cita, CitaDto.class)).collect(Collectors.toList());
 
         return listCitaDto.stream().findAny().orElse(null);
+    }
+
+    @Override
+    public List<CitaDto> listarCitas() throws Exception {
+
+        List<Cita> listCita = Streamable.of(citaRepository.findAll()).toList();
+
+        List<CitaDto> listCitaDto = listCita.stream().map(cita -> modelMapper.map(cita, CitaDto.class)).collect(Collectors.toList());
+
+        return  listCitaDto;
+    }
+
+    @Override
+    public CitaDto modificarCita(RequestModificarCita requestModificarCita) throws Exception {
+
+        Optional<EstadoCita> optionalEstadoCita = estadoCitaRepository.findById(requestModificarCita.getCodigoEstadoCita());
+
+        Optional<Cita> optionalCita = citaRepository.findById(requestModificarCita.getCodigoCita());
+
+        Cita cita = optionalCita.get();
+        cita.setEstadoCita(optionalEstadoCita.get());
+        cita.setObservaciones(requestModificarCita.getObervaciones());
+        cita.setUsuarioModificacion(Constante.USUARIO_ADMIN);
+        cita.setFechaModificacion(Instant.now());
+
+        citaRepository.save(cita);
+
+        CitaDto citaDto = new CitaDto();
+        modelMapper.map (cita, citaDto);
+
+        return citaDto;
     }
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Kutto - Adminstración</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+
+    <th:block th:replace="fragments/admin/estilos :: estilos"/>
+    <th:block th:replace="fragments/admin/scripts :: scripts"/>
+
+</head>
+
+<body data-topbar="light" data-layout="horizontal">
+
+<!-- <body data-layout="horizontal" data-topbar="dark"> -->
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <th:block th:replace="fragments/admin/header :: header" />
+        <th:block th:replace="fragments/admin/menu :: menu" />
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    <th:block layout:fragment="content" />
+                </div>
+            </div>
+            <!-- End Page-content -->
+
+            <th:block th:replace="fragments/admin/footer :: footer" />
+
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+</body>
+
+</html>

@@ -32,16 +32,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	//GENERATE QR
-	implementation 'com.google.zxing:core:3.5.0'
-	implementation 'com.google.zxing:javase:3.5.0'
-
 	// JASPER REPORTS
 	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.11.0'
 	implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.11.0'
 
 	// SENDINBLUE
 	implementation "com.sendinblue:sib-api-v3-sdk:6.0.0"
+
 }
 
 tasks.named('test') {

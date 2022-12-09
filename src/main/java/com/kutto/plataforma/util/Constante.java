@@ -24,10 +24,13 @@ public class Constante {
 
 	public static final String USUARIO_WEB = "WEB";
 
+	public static final String USUARIO_ADMIN = "ADMIN";
+
 	public static final Integer COD_INDICADOR_NO_DISPONIBLE = 0;
 
 	public static final Integer COD_INDICADOR_DISPONIBLE = 1;
 
 	public static final String PREFIJO_CITA = "C";
+	public static final String PREFIJO_ARTICULO = "AR";
 
 }

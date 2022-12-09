@@ -38,7 +38,7 @@
                                              aria-labelledby="item-one-tab">
                                             <div class="shop-details-img">
                                                 <img th:if="${articulo.imagen == null}" class="img-detail"  src="img/product/sinimagen.jpg" alt=""></a>
-                                                <img th:if="${articulo.imagen != null}" class="img-detail"  th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(articulo.imagen)}" alt="">
+                                                <img th:if="${articulo.imagen != null}" class="img-detail"  th:src="${imgUtil.getImgData(articulo.imagen)}" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@
                                                 <div class="shop-item mb-55">
                                                     <div class="shop-thumb"><a href="#/shop-details">
                                                         <img th:if="${articulo.imagen == null}" src="img/product/sinimagen.jpg" alt=""></a>
-                                                        <img th:if="${articulo.imagen != null}" th:src="'data:image/jpeg;base64,' + ${imgUtil.getImgData(articulo.imagen)}" alt=""></a>
+                                                        <img th:if="${articulo.imagen != null}" th:src="${imgUtil.getImgData(articulo.imagen)}" alt=""></a>
                                                     </a></div>
                                                     <div class="shop-content"><span th:text="${articulo.tipoArticulo.descripcion}"></span><h4 class="title">
                                                         <a th:href="@{'/producto?codigoArticulo=' + ${articulo.codigoArticulo} + '&codigoTipoArticulo=' + ${codigoTipoArticulo}}" th:text="${articulo.titulo}"></a></h4>

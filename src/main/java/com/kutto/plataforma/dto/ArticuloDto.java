@@ -1,6 +1,7 @@
 package com.kutto.plataforma.dto;
 
 import com.kutto.plataforma.model.TipoArticulo;
+import com.kutto.plataforma.util.ImageUtil;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -39,6 +40,8 @@ public class ArticuloDto implements Serializable {
     private String usuarioModificacion;
 
     private Instant fechaModificacion;
+
+    private String imagenString;
 
     public ArticuloDto() {
     }
@@ -161,6 +164,10 @@ public class ArticuloDto implements Serializable {
 
     public void setFechaModificacion(Instant fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getImagenString() {
+        return new ImageUtil().getImgData(this.imagen);
     }
 
     @Override
