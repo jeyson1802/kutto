@@ -1,0 +1,220 @@
+var datatable_tipo_articulo;
+var table;
+var modal_tipo_articulo;
+var hid_codigo_tipo_articulo;
+var txt_descripcion;
+var btn_guardar;
+var btn_agregar_tipo_articulo;
+var h5_titulo;
+
+$(document).ready(function(){
+    inicializarVariables();
+    inicializarComponentes();
+    inicializarEventos();
+});
+
+function inicializarVariables() {
+
+    datatable_tipo_articulo = $("#datatable_tipo_articulo");
+    modal_tipo_articulo = $("#modal_tipo_articulo");
+    hid_codigo_tipo_articulo = $("#hid_codigo_tipo_articulo");
+    txt_descripcion = $("#txt_descripcion");
+    btn_guardar = $("#btn_guardar");
+    btn_agregar_tipo_articulo = $("#btn_agregar_tipo_articulo");
+    h5_titulo = $("#h5_titulo");
+
+}
+
+function inicializarComponentes(){
+
+    table = datatable_tipo_articulo.DataTable({
+
+            "ajax": {
+                url: '/listartipoarticulo',
+                dataSrc: function (json) {
+                	return json;
+                },
+                error: function (xhr, error, code){
+                    alert('Hubo un error en el servidor.!!');
+                }
+            },
+    		"order"         : [[0, 'desc']],
+            "lengthMenu"	: [[10, 20, 30, -1], [10, 20, 30, "Todos"]],
+            "autoWidth"		: false,
+            "columnDefs"    : [
+                {
+                    "width": "30%",
+                    "targets": [0],
+                    "data": "codigoTipoArticulo"
+                },
+                {
+                    "width": "50%",
+                    "targets": [1],
+                    "data": "descripcion"
+                },
+                {
+                    "width": "20%",
+                    "targets": [2],
+                    "className": "dt-center",
+                    "data": null,
+                    "orderable": false,
+    				"render":
+                    function (data, type, row ) {
+                    	return  "<div style='display:flex;justify-content:space-around;'>" +
+                                    "<button title='Modificar' class='btn-edit btn btn-primary btn-rounded waves-effect waves-light'>" +
+                                         "Modificar" +
+                                     "</button>" +
+                                     "<button title='Modificar' class='btn-delete btn btn-danger btn-rounded waves-effect waves-light'>" +
+                                         "Eliminar" +
+                                     "</button>" +
+                                "</div>"
+                    }
+                }
+             ],
+             "language"  : {
+                "url": "/language/Spanish.json"
+             },
+             "drawCallback": function () {
+                  $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+              }
+    });
+
+    $('#datatable_tipo_articulo tbody').on( 'click','.btn-edit', function (){
+        var data = table.row( $(this).closest('tr')).data();
+    	cargarTipoArticulo(data.codigoTipoArticulo);
+    });
+
+    $('#datatable_tipo_articulo tbody').on( 'click','.btn-delete', function (){
+         var data = table.row( $(this).closest('tr')).data();
+     	 eliminarTipoArticulo(data.codigoTipoArticulo);
+     });
+}
+
+function inicializarEventos(){
+
+   btn_guardar.on('click', function() {
+       	guardarTipoArticulo();
+   });
+
+   btn_agregar_tipo_articulo.on('click', function() {
+       	agregarTipoArticulo();
+   });
+
+}
+
+function agregarTipoArticulo(){
+
+    hid_codigo_tipo_articulo.val(CADENA_VACIA);
+    h5_titulo.html("Nueva Categoría");
+    txt_descripcion.val(CADENA_VACIA);
+    modal_tipo_articulo.modal("show");
+}
+
+function cargarTipoArticulo(codigoTipoArticulo){
+
+	$.ajax({
+        type:"GET",
+        contentType : "application/json",
+        accept: 'text/plain',
+        url : '/buscartipoarticulo?codigoTipoArticulo=' + codigoTipoArticulo,
+        data : null,
+        dataType: 'text',
+        beforeSend: function(xhr) {
+        	//loadding(true);
+        },
+        success:function(result,textStatus,xhr){
+
+			if(xhr.status == HttpStatus.OK){
+                var data = JSON.parse(result);
+                cargarModalTipoArticulo(data);
+            }
+			//loadding(false);
+        }
+    });
+}
+
+function eliminarTipoArticulo(codigoTipoArticulo){
+
+	$.ajax({
+        type:"DELETE",
+        contentType : "application/json",
+        accept: 'text/plain',
+        url : '/eliminartipoarticulo?codigoTipoArticulo=' + codigoTipoArticulo,
+        data : null,
+        dataType: 'text',
+        beforeSend: function(xhr) {
+        	//loadding(true);
+        },
+        success:function(result,textStatus,xhr){
+
+			if(xhr.status == HttpStatus.OK){
+			    alert('ELIMINADO');
+
+			    table.clear();
+                table.ajax.reload(null, true);
+
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+            }
+			//loadding(false);
+        }
+    });
+}
+
+function cargarModalTipoArticulo(tipo_articulo) {
+
+    hid_codigo_tipo_articulo.val(tipo_articulo.codigoTipoArticulo);
+    h5_titulo.html("Categoría " + tipo_articulo.codigoTipoArticulo);
+    txt_descripcion.val(tipo_articulo.descripcion);
+    modal_tipo_articulo.modal("show");
+}
+
+function guardarTipoArticulo() {
+
+    var tipo_articulo = {}
+    tipo_articulo["codigoTipoArticulo"] = hid_codigo_tipo_articulo.val();
+    tipo_articulo["descripcion"] = txt_descripcion.val();
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        accept: 'text/plain',
+        url: '/guardartipoarticulo',
+        data: JSON.stringify(tipo_articulo),
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            //loadding(true);
+        },
+        error: function (xhr, status, error) {
+            //loadding(false);
+
+            alert('ERROR');
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                //mostrarAlertaError(mensajeGenericoError);
+            }
+
+        },
+        success: function (result, textStatus, xhr) {
+
+            //loadding(false);
+
+            if (xhr.status == HttpStatus.OK) {
+
+                alert('OK');
+
+                table.clear();
+                table.ajax.reload(null, true);
+
+                modal_tipo_articulo.modal("hide");
+
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+            }
+        }
+    });
+
+}

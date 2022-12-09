@@ -47,4 +47,10 @@ public class AdminController {
 
         return "articulos";
     }
+
+    @GetMapping("/categoria")
+    public String tipoarticulo(Model model) throws Exception {
+
+        return "tipoarticulo";
+    }
 }
