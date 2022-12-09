@@ -46,7 +46,7 @@
                             </div>
                             <div class="col-5">
                                 <div class="shop-details-content"><span th:text="${articulo.tipoArticulo.descripcion}"></span>
-                                    <h2 class="title" th:text="${articulo.descripcionCorta}"></h2>
+                                    <h2 class="title" th:text="${articulo.titulo}"></h2>
                                     <div class="shop-details-price">
                                         <h2 class="price" th:text="'S/ ' + ${articulo.precioUnitario}"></h2>
                                         <h5 th:if="${articulo.stock > 0}" th:text="${articulo.stock} + ' disponibles'" class="stock-status"></h5>
