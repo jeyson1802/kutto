@@ -1,6 +1,8 @@
 package com.kutto.plataforma.service.impl;
 
 import com.kutto.plataforma.dto.CitaDto;
+import com.kutto.plataforma.enums.EnumErrores;
+import com.kutto.plataforma.exception.UnprocessableEntityException;
 import com.kutto.plataforma.model.Cita;
 import com.kutto.plataforma.model.CitaDisponible;
 import com.kutto.plataforma.model.EstadoCita;
@@ -12,6 +14,7 @@ import com.kutto.plataforma.request.RequestRegistroReserva;
 import com.kutto.plataforma.service.CitaService;
 import com.kutto.plataforma.service.ParametricaService;
 import com.kutto.plataforma.util.Constante;
+import com.kutto.plataforma.util.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -90,7 +93,7 @@ public class CitaServiceImpl implements CitaService {
     @Override
     public List<CitaDto> listarCitas() throws Exception {
 
-        List<Cita> listCita = Streamable.of(citaRepository.findAll()).toList();
+        List<Cita> listCita = citaRepository.findByActivo(Constante.COD_ACTIVO);
 
         List<CitaDto> listCitaDto = listCita.stream().map(cita -> modelMapper.map(cita, CitaDto.class)).collect(Collectors.toList());
 
@@ -116,5 +119,22 @@ public class CitaServiceImpl implements CitaService {
         modelMapper.map (cita, citaDto);
 
         return citaDto;
+    }
+
+    @Override
+    public void eliminarCita(String codigoCita) throws Exception {
+
+        Optional<Cita> optionalCita = citaRepository.findById(codigoCita);
+        Cita cita = optionalCita.get();
+        cita.setActivo(Constante.COD_INACTIVO);
+        citaRepository.save(cita);
+
+        Optional<CitaDisponible> optionalCitaDisponible = citaDisponibleRepository.findByFechaReservaAndHoraReservaAndActivo(cita.getFecha(), cita.getHorario(), Constante.COD_ACTIVO);
+
+        if(optionalCitaDisponible.isPresent()) {
+            CitaDisponible citaDisponible = optionalCitaDisponible.get();
+            citaDisponible.setDisponible(Constante.COD_INDICADOR_DISPONIBLE);
+            citaDisponibleRepository.save(citaDisponible);
+        }
     }
 }

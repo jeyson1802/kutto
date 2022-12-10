@@ -15,4 +15,10 @@ public interface ArticuloRepository extends JpaRepository<Articulo, String> {
     Page<Articulo> findByActivoOrderByCodigoArticuloDesc(Integer activo, Pageable pageable);
 
     List<Articulo> findByActivoOrderByCodigoArticuloDesc(Integer activo);
+
+    List<Articulo> findByTipoArticulo_CodigoTipoArticuloAndActivo(String codigoTipoArticulo, Integer activo);
+
+    List<Articulo> findByCodigoEstandarAndActivo(String codigoEstandar, Integer activo);
+
+
 }

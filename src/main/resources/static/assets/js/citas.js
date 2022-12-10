@@ -103,10 +103,13 @@ function inicializarComponentes(){
     					"render":
                         function (data, type, row ) {
                         	return  "<div style='display:flex;justify-content:space-around;'>" +
-                                    		    "<button title='Modificar' class='btn-edit btn btn-primary btn-rounded waves-effect waves-light'>" +
-                                                     "Modificar" +
-                                                 "</button>" +
-                                    		"</div>";
+                                        "<button title='Modificar' class='btn-edit btn btn-primary btn-rounded waves-effect waves-light'>" +
+                                             "Modificar" +
+                                         "</button>" +
+                                         "<button title='Modificar' class='btn-delete btn btn-danger btn-rounded waves-effect waves-light'>" +
+                                             "Eliminar" +
+                                         "</button>" +
+                                    "</div>"
                         }
                   }
              ],
@@ -121,6 +124,11 @@ function inicializarComponentes(){
     $('#datatable_citas tbody').on( 'click','.btn-edit', function (){
         var data = table.row( $(this).closest('tr')).data();
     	cargarCita(data.codigoCita);
+    });
+
+    $('#datatable_citas tbody').on( 'click','.btn-delete', function (){
+        var data = table.row( $(this).closest('tr')).data();
+        mostrarConfirmacion("¿Está seguro de eliminar la Cita?", "No se podrá revertir el cambio.", eliminarCita, data.codigoCita);
     });
 }
 
@@ -139,18 +147,60 @@ function cargarCita(codigoCita){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/buscarreserva/' + codigoCita,
-        data : null,
-        dataType: 'text',
+        dataType: 'json',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
         success:function(result,textStatus,xhr){
+            //loadding(false);
+			if(xhr.status == HttpStatus.OK){
+                cargarModalCita(result);
+            }
+
+        }
+    });
+}
+
+function eliminarCita(codigoCita){
+
+	$.ajax({
+        type:"DELETE",
+        contentType : "application/json",
+        accept: 'text/plain',
+        url : '/eliminarcita?codigoCita=' + codigoCita,
+        dataType: 'text',
+        beforeSend: function(xhr) {
+        	//loadding(true);
+        },
+        error: function (xhr, status, error) {
+            //loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                var data = JSON.parse(xhr.responseText);
+                mostrarMensajeAdvertencia("No se pudo eliminar la Cita", data.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
+        },
+        success:function(result,textStatus,xhr){
+
+            //loadding(false);
 
 			if(xhr.status == HttpStatus.OK){
-                var data = JSON.parse(result);
-                cargarModalCita(data);
+
+			    mostrarMensajeOK("Buen Trabajo!", "Cita Eliminada Satisfactoriamente");
+
+			    table.clear();
+                table.ajax.reload(null, true);
+
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
             }
-			//loadding(false);
         }
     });
 }
@@ -188,11 +238,14 @@ function modificarCita() {
         error: function (xhr, status, error) {
             //loadding(false);
 
-            alert('ERROR');
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                var data = JSON.parse(xhr.responseText);
+                mostrarMensajeAdvertencia("No se pudo eliminar la Cita", data.message);
+            }
 
             if (xhr.status == HttpStatus.InternalServerError) {
 
-                //mostrarAlertaError(mensajeGenericoError);
+                mostrarMensajeError(ERROR_GENERICO);
             }
 
         },
@@ -202,7 +255,7 @@ function modificarCita() {
 
             if (xhr.status == HttpStatus.OK) {
 
-                alert('OK');
+                mostrarMensajeOK("Buen Trabajo!", "Cita Guardada Satisfactoriamente");
 
                 table.clear();
                 table.ajax.reload(null, true);

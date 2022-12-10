@@ -108,7 +108,7 @@ function inicializarComponentes(){
 
     $('#datatable_horario tbody').on( 'click','.btn-delete', function (){
          var data = table.row( $(this).closest('tr')).data();
-     	 eliminarCitaDisponible(data.codigoCitaDisponible);
+         mostrarConfirmacion("¿Está seguro de eliminar el Horario?", "No se podrá revertir el cambio.", eliminarCitaDisponible, data.codigoCitaDisponible);
      });
 }
 
@@ -141,18 +141,18 @@ function cargarCitaDisponible(codigoCitaDisponible){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/buscarhorario?codigoCitaDisponible=' + codigoCitaDisponible,
-        data : null,
-        dataType: 'text',
+        dataType: 'json',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
         success:function(result,textStatus,xhr) {
 
+            //loadding(false);
+
 			if(xhr.status == HttpStatus.OK){
-                var data = JSON.parse(result);
-                cargarModalCitaDisponible(data);
+                cargarModalCitaDisponible(result);
             }
-			//loadding(false);
+
         }
     });
 }
@@ -164,15 +164,31 @@ function eliminarCitaDisponible(codigoCitaDisponible){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/eliminarhorario?codigoCitaDisponible=' + codigoCitaDisponible,
-        data : null,
         dataType: 'text',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
+        error: function (xhr, status, error) {
+            //loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                var data = JSON.parse(xhr.responseText);
+                mostrarMensajeAdvertencia("No se pudo eliminar el Horario", data.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
+        },
         success:function(result,textStatus,xhr){
 
+            //loadding(false);
+
 			if(xhr.status == HttpStatus.OK){
-			    alert('ELIMINADO');
+
+			    mostrarMensajeOK("Buen Trabajo!", "Horario Eliminado Satisfactoriamente");
 
 			    table.clear();
                 table.ajax.reload(null, true);
@@ -181,7 +197,6 @@ function eliminarCitaDisponible(codigoCitaDisponible){
                     scrollTop: 0
                 }, 800);
             }
-			//loadding(false);
         }
     });
 }
@@ -217,11 +232,12 @@ function guardarCitaDisponible() {
         error: function (xhr, status, error) {
             //loadding(false);
 
-            alert('ERROR');
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo guardar el Horario", xhr.responseJSON.message);
+            }
 
             if (xhr.status == HttpStatus.InternalServerError) {
-
-                //mostrarAlertaError(mensajeGenericoError);
+                mostrarMensajeError(ERROR_GENERICO);
             }
 
         },
@@ -231,7 +247,7 @@ function guardarCitaDisponible() {
 
             if (xhr.status == HttpStatus.OK) {
 
-                alert('OK');
+                mostrarMensajeOK("Buen Trabajo!", "Horario Guardado Satisfactoriamente");
 
                 table.clear();
                 table.ajax.reload(null, true);

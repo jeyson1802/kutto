@@ -86,7 +86,7 @@ function inicializarComponentes(){
 
     $('#datatable_tipo_articulo tbody').on( 'click','.btn-delete', function (){
          var data = table.row( $(this).closest('tr')).data();
-     	 eliminarTipoArticulo(data.codigoTipoArticulo);
+         mostrarConfirmacion("¿Está seguro de eliminar la categoría?", "No se podrá revertir el cambio.", eliminarTipoArticulo, data.codigoTipoArticulo);
      });
 }
 
@@ -117,18 +117,17 @@ function cargarTipoArticulo(codigoTipoArticulo){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/buscartipoarticulo?codigoTipoArticulo=' + codigoTipoArticulo,
-        data : null,
-        dataType: 'text',
+        dataType: 'json',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
         success:function(result,textStatus,xhr){
 
+            //loadding(false);
+
 			if(xhr.status == HttpStatus.OK){
-                var data = JSON.parse(result);
-                cargarModalTipoArticulo(data);
+                cargarModalTipoArticulo(result);
             }
-			//loadding(false);
         }
     });
 }
@@ -140,15 +139,31 @@ function eliminarTipoArticulo(codigoTipoArticulo){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/eliminartipoarticulo?codigoTipoArticulo=' + codigoTipoArticulo,
-        data : null,
         dataType: 'text',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
+        error: function (xhr, status, error) {
+            //loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                var data = JSON.parse(xhr.responseText);
+                mostrarMensajeAdvertencia("No se pudo eliminar la Categoría", data.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
+        },
         success:function(result,textStatus,xhr){
 
+            //loadding(false);
+
 			if(xhr.status == HttpStatus.OK){
-			    alert('ELIMINADO');
+
+			    mostrarMensajeOK("Buen Trabajo!", "Categoría Eliminada Satisfactoriamente");
 
 			    table.clear();
                 table.ajax.reload(null, true);
@@ -157,7 +172,6 @@ function eliminarTipoArticulo(codigoTipoArticulo){
                     scrollTop: 0
                 }, 800);
             }
-			//loadding(false);
         }
     });
 }
@@ -189,11 +203,12 @@ function guardarTipoArticulo() {
         error: function (xhr, status, error) {
             //loadding(false);
 
-            alert('ERROR');
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo guardar la Categoría", xhr.responseJSON.message);
+            }
 
             if (xhr.status == HttpStatus.InternalServerError) {
-
-                //mostrarAlertaError(mensajeGenericoError);
+                mostrarMensajeError(ERROR_GENERICO);
             }
 
         },
@@ -203,7 +218,7 @@ function guardarTipoArticulo() {
 
             if (xhr.status == HttpStatus.OK) {
 
-                alert('OK');
+                mostrarMensajeOK("Buen Trabajo!", "Categoría Guardada Satisfactoriamente");
 
                 table.clear();
                 table.ajax.reload(null, true);

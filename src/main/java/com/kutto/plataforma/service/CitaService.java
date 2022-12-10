@@ -18,4 +18,5 @@ public interface CitaService {
 
     CitaDto modificarCita(RequestModificarCita requestModificarCita) throws Exception;
 
+    void eliminarCita(String codigoCita) throws Exception;
 }

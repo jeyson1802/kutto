@@ -4,8 +4,10 @@ import com.kutto.plataforma.model.CitaDisponible;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface CitaDisponibleRepository extends CrudRepository<CitaDisponible, String> {
 
@@ -13,6 +15,8 @@ public interface CitaDisponibleRepository extends CrudRepository<CitaDisponible,
     List<Date> findFechaReservaDisponibles(Date fechaActual) throws Exception;
 
     List<CitaDisponible> findByFechaReservaAndDisponibleAndActivoOrderByHoraReservaAsc(Date fechaReserva, Integer disponible, Integer activo) throws Exception;
+
+   Optional<CitaDisponible> findByFechaReservaAndHoraReservaAndActivo(Date fechaReserva, Time horaReserva, Integer activo) throws Exception;
 
     List<CitaDisponible> findByActivoOrderByCodigoCitaDisponibleDesc(Integer activo) throws Exception;
 

@@ -134,7 +134,7 @@ function inicializarComponentes(){
 
     $('#datatable_articulos tbody').on( 'click','.btn-delete', function (){
          var data = table.row( $(this).closest('tr')).data();
-     	 eliminarArticulo(data.codigoArticulo);
+     	 mostrarConfirmacion("¿Está seguro de eliminar el producto?", "No se podrá revertir el cambio.", eliminarArticulo, data.codigoArticulo);
      });
 }
 
@@ -194,18 +194,16 @@ function cargarArticulo(codigoArticulo){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/buscararticulo?codigoArticulo=' + codigoArticulo,
-        data : null,
-        dataType: 'text',
+        dataType: 'json',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
         success:function(result,textStatus,xhr){
-
+            //loadding(false);
 			if(xhr.status == HttpStatus.OK){
-                var data = JSON.parse(result);
-                cargarModalArticulo(data);
+                cargarModalArticulo(result);
             }
-			//loadding(false);
+
         }
     });
 }
@@ -217,15 +215,31 @@ function eliminarArticulo(codigoArticulo){
         contentType : "application/json",
         accept: 'text/plain',
         url : '/eliminararticulo?codigoArticulo=' + codigoArticulo,
-        data : null,
         dataType: 'text',
         beforeSend: function(xhr) {
         	//loadding(true);
         },
+        error: function (xhr, status, error) {
+            //loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                var data = JSON.parse(xhr.responseText);
+                mostrarMensajeAdvertencia("No se pudo eliminar el Producto", data.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
+        },
         success:function(result,textStatus,xhr){
 
 			if(xhr.status == HttpStatus.OK){
-			    alert('ELIMINADO');
+
+                //loadding(false);
+
+			    mostrarMensajeOK("Buen Trabajo!", "Producto Eliminado Satisfactoriamente");
 
 			    table.clear();
                 table.ajax.reload(null, true);
@@ -234,7 +248,6 @@ function eliminarArticulo(codigoArticulo){
                     scrollTop: 0
                 }, 800);
             }
-			//loadding(false);
         }
     });
 }
@@ -291,12 +304,26 @@ function guardarArticulo() {
     	beforeSend: function(xhr) {
     		//loadding(true);
     	},
+        error: function (xhr, status, error) {
+            //loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                var data = JSON.parse(xhr.responseText);
+                mostrarMensajeAdvertencia("No se pudo guardar el Producto", data.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
+        },
     	success:function(resultado,textStatus,xhr){
+            //loadding(false);
 
     		if(xhr.status == HttpStatus.OK) {
 
-    		    alert('OK');
-    			//mostrarNotificacion("El registro fue grabado correctamente.", "success");
+    			mostrarMensajeOK("Buen Trabajo!", "Producto Guardado Satisfactoriamente");
 
     			table.clear();
                 table.ajax.reload(null, true);
@@ -308,12 +335,6 @@ function guardarArticulo() {
                 }, 800);
     		}
 
-    		//loadding(false);
-    	},
-    	error: function (xhr, error, code){
-    		alert('ERROR');
-    		//mostrarMensajeError(xhr.responseText);
-    		//loadding(false);
     	}
     });
 

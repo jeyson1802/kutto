@@ -2,7 +2,11 @@ package com.kutto.plataforma.service.impl;
 
 import com.kutto.plataforma.dto.CitaDto;
 import com.kutto.plataforma.dto.TipoArticuloDto;
+import com.kutto.plataforma.enums.EnumErrores;
+import com.kutto.plataforma.exception.UnprocessableEntityException;
+import com.kutto.plataforma.model.Articulo;
 import com.kutto.plataforma.model.TipoArticulo;
+import com.kutto.plataforma.repository.ArticuloRepository;
 import com.kutto.plataforma.repository.TipoArticuloRepository;
 import com.kutto.plataforma.request.RequestGuardarTipoArticulo;
 import com.kutto.plataforma.service.ParametricaService;
@@ -27,6 +31,9 @@ public class TipoArticuloServiceImpl implements TipoArticuloService {
 
     @Autowired
     private TipoArticuloRepository tipoArticuloRepository;
+
+    @Autowired
+    private ArticuloRepository articuloRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -59,6 +66,14 @@ public class TipoArticuloServiceImpl implements TipoArticuloService {
 
     @Override
     public void eliminarTipoArticulo(String codigoTipoArticulo) throws Exception {
+
+        List<Articulo> listArticulo = articuloRepository.findByTipoArticulo_CodigoTipoArticuloAndActivo(codigoTipoArticulo, Constante.COD_ACTIVO);
+
+        if(!StringUtil.isEmpty(listArticulo)){
+
+            throw new UnprocessableEntityException(EnumErrores.ERROR_422004.getCodigo(),
+                    EnumErrores.getMensaje(EnumErrores.ERROR_422004.getCodigo()));
+        }
 
         Optional<TipoArticulo> optionalTipoArticulo = tipoArticuloRepository.findById(codigoTipoArticulo);
         TipoArticulo tipoArticulo = optionalTipoArticulo.get();

@@ -18,4 +18,6 @@ public interface CitaDisponibleService {
 
     CitaDisponibleDto buscarCitaDisponible(String codigoCitaDisponible) throws Exception;
 
+    void eliminarCitaDisponible(String codigoCitaDisponible) throws Exception;
+
 }

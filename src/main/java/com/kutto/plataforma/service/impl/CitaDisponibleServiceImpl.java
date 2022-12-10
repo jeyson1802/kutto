@@ -2,9 +2,14 @@ package com.kutto.plataforma.service.impl;
 
 import com.kutto.plataforma.dto.CitaDisponibleDto;
 import com.kutto.plataforma.dto.CitaDisponibleDto;
+import com.kutto.plataforma.enums.EnumErrores;
+import com.kutto.plataforma.exception.UnprocessableEntityException;
+import com.kutto.plataforma.model.Articulo;
+import com.kutto.plataforma.model.Cita;
 import com.kutto.plataforma.model.CitaDisponible;
 import com.kutto.plataforma.model.CitaDisponible;
 import com.kutto.plataforma.repository.CitaDisponibleRepository;
+import com.kutto.plataforma.repository.CitaRepository;
 import com.kutto.plataforma.request.RequestGuardarCitaDisponible;
 import com.kutto.plataforma.service.CitaDisponibleService;
 import com.kutto.plataforma.service.ParametricaService;
@@ -15,7 +20,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -32,6 +41,9 @@ public class CitaDisponibleServiceImpl implements CitaDisponibleService {
 
     @Autowired
     private CitaDisponibleRepository citaDisponibleRepository;
+
+    @Autowired
+    private CitaRepository citaRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -76,11 +88,30 @@ public class CitaDisponibleServiceImpl implements CitaDisponibleService {
         CitaDisponible citaDisponible = new CitaDisponible();
 
         if(StringUtil.isEmpty(requestGuardarCitaDisponible.getCodigoCitaDisponible())) {
+
+            Optional<CitaDisponible> optionalCitaDisponible = citaDisponibleRepository.findByFechaReservaAndHoraReservaAndActivo(DateUtil.stringToDateYYYYMMDD(requestGuardarCitaDisponible.getFechaReserva()), DateUtil.stringToTimeHHMM(requestGuardarCitaDisponible.getHoraReserva()), Constante.COD_ACTIVO);
+
+            if(optionalCitaDisponible.isPresent()){
+
+                throw new UnprocessableEntityException(EnumErrores.ERROR_422003.getCodigo(),
+                        EnumErrores.getMensaje(EnumErrores.ERROR_422003.getCodigo()));
+            }
+
             citaDisponible.setCodigoCitaDisponible(parametricaService.obtenerCodigoCorrelativoTabla(Constante.PREFIJO_CITA_DISPONIBLE, 3));
             citaDisponible.setUsuarioRegistro(Constante.USUARIO_ADMIN);
             citaDisponible.setFechaRegistro(Instant.now());
+
         } else {
             citaDisponible = citaDisponibleRepository.findById(requestGuardarCitaDisponible.getCodigoCitaDisponible()).get();
+
+            List<Cita> listCita = citaRepository.findByFechaAndHorarioAndActivo(citaDisponible.getFechaReserva(),citaDisponible.getHoraReserva(), Constante.COD_ACTIVO);
+
+            if(!StringUtil.isEmpty(listCita)) {
+
+                throw new UnprocessableEntityException(EnumErrores.ERROR_422002.getCodigo(),
+                        EnumErrores.getMensaje(EnumErrores.ERROR_422002.getCodigo()));
+            }
+
             citaDisponible.setUsuarioModificacion(Constante.USUARIO_ADMIN);
             citaDisponible.setFechaModificacion(Instant.now());
         }
@@ -111,5 +142,22 @@ public class CitaDisponibleServiceImpl implements CitaDisponibleService {
         }
     }
 
+    @Override
+    public void eliminarCitaDisponible(String codigoCitaDisponible) throws Exception {
+
+        Optional<CitaDisponible> optionalCitaDisponible = citaDisponibleRepository.findById(codigoCitaDisponible);
+        CitaDisponible citaDisponible = optionalCitaDisponible.get();
+
+        List<Cita> listCita = citaRepository.findByFechaAndHorarioAndActivo(citaDisponible.getFechaReserva(),citaDisponible.getHoraReserva(), Constante.COD_ACTIVO);
+
+        if(!StringUtil.isEmpty(listCita)) {
+
+            throw new UnprocessableEntityException(EnumErrores.ERROR_422001.getCodigo(),
+                    EnumErrores.getMensaje(EnumErrores.ERROR_422001.getCodigo()));
+        }
+
+        citaDisponible.setActivo(Constante.COD_INACTIVO);
+        citaDisponibleRepository.save(citaDisponible);
+    }
 
 }

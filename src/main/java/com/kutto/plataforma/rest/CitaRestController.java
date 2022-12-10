@@ -1,10 +1,10 @@
 package com.kutto.plataforma.rest;
 
-import com.kutto.plataforma.dto.CitaDisponibleDto;
+import com.kutto.plataforma.dto.CitaDto;
 import com.kutto.plataforma.dto.CitaDto;
 import com.kutto.plataforma.request.RequestModificarCita;
 import com.kutto.plataforma.request.RequestRegistroReserva;
-import com.kutto.plataforma.service.CitaDisponibleService;
+import com.kutto.plataforma.service.CitaService;
 import com.kutto.plataforma.service.CitaService;
 import com.kutto.plataforma.util.Constante;
 import com.kutto.plataforma.util.DateUtil;
@@ -52,5 +52,17 @@ public class CitaRestController {
         logger.info("Fin modificarCita.......");
 
         return new ResponseEntity<>(citaDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/eliminarcita")
+    public ResponseEntity<String> eliminarCita(@RequestParam("codigoCita") String codigoCita) throws Exception {
+
+        logger.info("Inicio eliminarCita.......");
+
+        citaService.eliminarCita(codigoCita);
+
+        logger.info("Fin eliminarCita.......");
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

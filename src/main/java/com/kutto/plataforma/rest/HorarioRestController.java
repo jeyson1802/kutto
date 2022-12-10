@@ -56,17 +56,17 @@ public class HorarioRestController {
 
         return new ResponseEntity<>(citaDisponibleDto, HttpStatus.OK);
     }
-//
-//    @DeleteMapping("/eliminartipoarticulo")
-//    public ResponseEntity<String> eliminarCitaDisponible(@RequestParam("codigoCitaDisponible") String codigoCitaDisponible) throws Exception {
-//
-//        logger.info("Inicio eliminarCitaDisponible.......");
-//
-//        citaDisponibleService.eliminarCitaDisponible(codigoCitaDisponible);
-//
-//        logger.info("Fin eliminarCitaDisponible.......");
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+
+    @DeleteMapping("/eliminarhorario")
+    public ResponseEntity<String> eliminarCitaDisponible(@RequestParam("codigoCitaDisponible") String codigoCitaDisponible) throws Exception {
+
+        logger.info("Inicio eliminarCitaDisponible.......");
+
+        citaDisponibleService.eliminarCitaDisponible(codigoCitaDisponible);
+
+        logger.info("Fin eliminarCitaDisponible.......");
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

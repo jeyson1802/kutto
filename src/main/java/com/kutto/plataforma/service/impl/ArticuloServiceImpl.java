@@ -4,6 +4,8 @@ import com.kutto.plataforma.dto.ArticuloDto;
 import com.kutto.plataforma.dto.CitaDto;
 import com.kutto.plataforma.dto.PaginacionWrapperDto;
 import com.kutto.plataforma.dto.TipoArticuloDto;
+import com.kutto.plataforma.enums.EnumErrores;
+import com.kutto.plataforma.exception.UnprocessableEntityException;
 import com.kutto.plataforma.model.Articulo;
 import com.kutto.plataforma.model.Cita;
 import com.kutto.plataforma.model.TipoArticulo;
@@ -113,6 +115,17 @@ public class ArticuloServiceImpl implements ArticuloService {
             articulo = articuloRepository.findById(requestGuardarArticulo.getCodigoArticulo()).get();
             articulo.setUsuarioModificacion(Constante.USUARIO_ADMIN);
             articulo.setFechaModificacion(Instant.now());
+        }
+
+        if(!StringUtil.equiv(requestGuardarArticulo.getCodigoEstandar(), articulo.getCodigoEstandar())) {
+
+            List<Articulo> listArticulo = articuloRepository.findByCodigoEstandarAndActivo(requestGuardarArticulo.getCodigoEstandar(), Constante.COD_ACTIVO);
+
+            if(!StringUtil.isEmpty(listArticulo)) {
+
+                throw new UnprocessableEntityException(EnumErrores.ERROR_422005.getCodigo(),
+                        EnumErrores.getMensaje(EnumErrores.ERROR_422005.getCodigo()));
+            }
         }
 
         Optional<TipoArticulo> optionalTipoArticulo = tipoArticuloRepository.findById(requestGuardarArticulo.getCodigoTipoArticulo());
