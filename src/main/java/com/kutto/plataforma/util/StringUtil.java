@@ -1,10 +1,7 @@
 package com.kutto.plataforma.util;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -164,6 +161,10 @@ public class StringUtil {
 			return toBlank(object1.toString()).equals(toBlank(object2.toString()));
 		}
 		return object1.equals(object2);
+	}
+
+	public static boolean stringContainsItemFromList(String inputStr, String[] items) {
+		return Arrays.stream(items).anyMatch(inputStr::contains);
 	}
 
 }
