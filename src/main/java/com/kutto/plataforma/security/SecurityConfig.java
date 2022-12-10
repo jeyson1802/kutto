@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(resources)
                     .permitAll()
-                    .antMatchers("/", "/productos", "/producto","/reserva","/buscar", "/adopcion", "/forbidden", "/login")
+                    .antMatchers("/", "/productos", "/producto","/reserva","/buscar", "/adopcion", "/forbidden", "/login", "/horariosdisponibles/**", "/registrarreserva", "/buscarreserva/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
