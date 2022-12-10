@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
 	<div th:fragment="menu" th:remove="tag">
@@ -10,7 +11,7 @@
 					<div class="collapse navbar-collapse" id="topnav-menu-content">
 						<ul class="navbar-nav">
 
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
 								<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-maestros" role="button">
 									<i class="ri-settings-4-line me-2"></i>Maestros<div class="arrow-down"></div>
 								</a>
@@ -28,7 +29,7 @@
 								</div>
 							</li>
 
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_LOGISTICA')">
 								<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-productos" role="button">
 									<i class="ri-shopping-basket-2-line me-2"></i>Productos<div class="arrow-down"></div>
 								</a>
@@ -45,7 +46,7 @@
 								</div>
 							</li>
 
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ATENCION')">
 								<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-citas" role="button">
 									<i class="ri-calendar-event-line me-2"></i>Citas<div class="arrow-down"></div>
 								</a>

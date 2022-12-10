@@ -47,6 +47,26 @@ table.dataTable tbody tr td {
     margin-bottom: 24px;
 }
 
+.btn-login {
+    color: #fff;
+    background-color: #F04336;
+    border-color: #F04336;
+}
+
+.btn-login:hover {
+    color: #fff;
+    background-color: #F04336;
+    border-color: #F04336;
+}
+
+.auth-body-bg {
+    background-image: url(../../img/bg/testimonial_bg.jpg) !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
 #page-topbar {
   position: fixed;
   top: 0;

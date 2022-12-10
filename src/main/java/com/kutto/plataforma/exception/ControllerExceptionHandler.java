@@ -30,20 +30,20 @@ public class ControllerExceptionHandler {
     return new ResponseEntity<ResponseMessage>(message, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ResponseMessage> globalExceptionHandler(Exception ex, WebRequest request) {
-
-    StringWriter printStackTrace = new StringWriter();
-    ex.printStackTrace(new PrintWriter(printStackTrace));
-
-    logger.error(printStackTrace.toString());
-
-    ResponseMessage message = new ResponseMessage(
-        new Date(),
-        HttpStatus.INTERNAL_SERVER_ERROR.value(),
-        printStackTrace.toString(),
-        request.getDescription(false));
-    
-    return new ResponseEntity<ResponseMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
+//  @ExceptionHandler(Exception.class)
+//  public ResponseEntity<ResponseMessage> globalExceptionHandler(Exception ex, WebRequest request) {
+//
+//    StringWriter printStackTrace = new StringWriter();
+//    ex.printStackTrace(new PrintWriter(printStackTrace));
+//
+//    logger.error(printStackTrace.toString());
+//
+//    ResponseMessage message = new ResponseMessage(
+//        new Date(),
+//        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//        printStackTrace.toString(),
+//        request.getDescription(false));
+//
+//    return new ResponseEntity<ResponseMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+//  }
 }
