@@ -13,7 +13,7 @@ public interface CitaRepository extends CrudRepository<Cita, String> {
 
     List<Cita> findByActivo(Integer activo);
 
-    @Query("select a from Cita a where (a.codigoCita =?1 or a.documento =?1) and a.activo = 1")
+    @Query("select a from Cita a where (a.codigoCita =?1 or a.documento =?1) and a.activo = 1 order by a.codigoCita desc")
     List<Cita> buscarPorCodigoCitaOrDocumento(String busqueda) throws Exception;
 
 }

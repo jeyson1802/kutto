@@ -87,7 +87,7 @@ public class CitaServiceImpl implements CitaService {
 
         List<CitaDto> listCitaDto = listCita.stream().map(cita -> modelMapper.map(cita, CitaDto.class)).collect(Collectors.toList());
 
-        return listCitaDto.stream().findAny().orElse(null);
+        return listCitaDto.stream().findFirst().orElse(null);
     }
 
     @Override
