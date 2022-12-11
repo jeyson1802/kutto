@@ -66,6 +66,14 @@ table.dataTable tbody tr td {
     background-position: center;
 }
 
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: -0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 80%;
+    color: #f32f53;
+}
 
 #page-topbar {
   position: fixed;

@@ -15,6 +15,7 @@ var btn_agregar_articulo;
 var file;
 var img_articulo;
 var h5_titulo;
+var form_registro_articulo_validation;
 
 $(document).ready(function(){
     inicializarVariables();
@@ -136,12 +137,20 @@ function inicializarComponentes(){
          var data = table.row( $(this).closest('tr')).data();
      	 mostrarConfirmacion("¿Está seguro de eliminar el producto?", "No se podrá revertir el cambio.", eliminarArticulo, data.codigoArticulo);
      });
+
+     validacionFormularioRegistroArticulo();
 }
 
 function inicializarEventos(){
 
    btn_guardar.on('click', function() {
-       	guardarArticulo();
+
+        form_registro_articulo_validation.validate().then(function(status) {
+            if(status === 'Valid') {
+                guardarArticulo();
+            }
+        });
+
    });
 
    btn_agregar_articulo.on('click', function() {
@@ -153,6 +162,132 @@ function inicializarEventos(){
    });
 
 }
+
+function validacionFormularioRegistroArticulo() {
+
+    form_registro_articulo_validation = FormValidation.formValidation(document.getElementById('form_articulo'),
+            {
+                fields: {
+                    txt_titulo: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Los nombres son obligatorios.',
+                            },
+                            stringLength: {
+                                max: 200,
+                                message: 'Los nombres no puede sobrepasar 200 caracteres.',
+                            },
+                        },
+                    },
+                    txt_sku: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Los apellidos son obligatorios.',
+                            },
+                            stringLength: {
+                                max: 200,
+                                message: 'Los apellidos no puede sobrepasar 200 caracteres.',
+                            },
+                        },
+                    },
+                    txt_descripcion_corta: {
+                        validators: {
+                            notEmpty: {
+                                message: 'El correo es obligatorio.',
+                            },
+                            stringLength: {
+                                max: 200,
+                                message: 'El correo no puede sobrepasar 200 caracteres.',
+                            },
+                        },
+                    },
+                    txt_descripcion_larga: {
+                        validators: {
+                            notEmpty: {
+                                message: 'El celular es obligatorio.',
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: 'El celular no puede sobrepasar 20 caracteres.',
+                            },
+                        },
+                    },
+                    sel_categoria: {
+                        validators: {
+                            notEmpty: {
+                                message: 'El celular es obligatorio.',
+                            }
+                        },
+                    },
+                    txt_precio: {
+                        validators: {
+                            integer: {
+                                message: 'Debe ingresar un valor numérico.',
+                            },
+                            integer: {
+                                message: 'Debe ingresar un valor numérico.',
+                            },
+                            checkNumeroCelular : {
+                                message: 'Número de celular inválido.'
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: 'El celular no puede sobrepasar 20 caracteres.',
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: 'The username can only consist of alphabetical, number and underscore',
+                            },
+                        },
+                    },
+                    txt_stock: {
+                        validators: {
+                            integer: {
+                                message: 'Debe ingresar un valor numérico.',
+                            },
+                            integer: {
+                                message: 'Debe ingresar un valor numérico.',
+                            },
+                            checkNumeroCelular : {
+                                message: 'Número de celular inválido.'
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: 'El celular no puede sobrepasar 20 caracteres.',
+                            },
+                        },
+                    },
+                    txt_observaciones: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Debe seleccionar un país.',
+                            },
+                        },
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap3: new FormValidation.plugins.Bootstrap5(),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: 'fa fa-check',
+                        invalid: 'fa fa-times',
+                        validating: 'fa fa-refresh',
+                    }),
+                },
+            }
+        ).registerValidator('checkNumeroCelular', esNumeroCelularValido);
+}
+
+const esNumeroCelularValido = function () {
+    return {
+        validate: function (input) {
+            return {
+               valid: true,
+            };
+        },
+    };
+};
 
 function previsualizar(elemento) {
     
@@ -171,6 +306,8 @@ function previsualizar(elemento) {
 }
 
 function agregarArticulo(){
+
+    form_registro_articulo_validation.resetForm(false);
 
     hid_codigo_articulo.val(CADENA_VACIA);
     h5_titulo.html("Nuevo Producto");

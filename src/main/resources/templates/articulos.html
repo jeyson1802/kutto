@@ -97,75 +97,75 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form id="form_articulo" action="#" method="post" role="form">
                                         <input type="hidden" class="form-control" id="hid_codigo_articulo" >
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_titulo" class="form-label">Título</label>
-                                                    <input type="text" class="form-control" id="txt_titulo" >
+                                                    <input type="text" class="form-control" id="txt_titulo" name="txt_titulo">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_sku" class="form-label">Código SKU</label>
-                                                    <input type="text" class="form-control" id="txt_sku" >
+                                                    <input type="text" class="form-control" id="txt_sku" name="txt_sku">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_descripcion_corta" class="form-label">Descripción Corta</label>
-                                                    <input type="text" class="form-control" id="txt_descripcion_corta" >
+                                                    <input type="text" class="form-control" id="txt_descripcion_corta" name="txt_descripcion_corta">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_descripcion_larga" class="form-label">Descripción Larga</label>
-                                                    <textarea class="form-control" id="txt_descripcion_larga"></textarea>
+                                                    <textarea class="form-control" id="txt_descripcion_larga" name="txt_descripcion_larga"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="sel_categoria" class="form-label">Categoría</label>
-                                                    <select class="form-select" id="sel_categoria">
+                                                    <select class="form-select" id="sel_categoria" name="sel_categoria">
                                                         <option th:each="categoria : ${listTipoArticulo}" th:value="${categoria.codigoTipoArticulo}" th:text="${categoria.descripcion}"></option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_precio" class="form-label">Precio Unitario</label>
-                                                    <input type="text" class="form-control" id="txt_precio" >
+                                                    <input type="text" class="form-control" id="txt_precio" name="txt_precio">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_stock" class="form-label">Stock</label>
-                                                    <input type="number" class="form-control" id="txt_stock" >
+                                                    <input type="number" class="form-control" id="txt_stock" name="txt_stock">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_observaciones" class="form-label">Observaciones</label>
-                                                    <input type="text" class="form-control" id="txt_observaciones">
+                                                    <input type="text" class="form-control" id="txt_observaciones" name="txt_observaciones">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="txt_descripcion_larga" class="form-label">Previsualización</label>
+                                                <div class="form-group mb-3">
+                                                    <label for="img_articulo" class="form-label">Previsualización</label>
                                                     <img id="img_articulo" src="" class="img-fluid" alt="Responsive image">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_descripcion_larga" class="form-label">Imagen</label>
                                                     <input id="file" type="file" class="form-control">
                                                 </div>
