@@ -1,5 +1,6 @@
 const CADENA_VACIA = "";
 const ERROR_GENERICO = "Ocurrió un error inesperado. Por favor intentar nuevamente.";
+var index = 4000;
 
 var HttpStatus = {
 	OK  				: 200,
@@ -72,4 +73,29 @@ function mostrarConfirmacion(titulo, mensaje, callback, parametrocallback) {
           callback(parametrocallback);
       }
     });
+}
+
+function loadding(onOff) {
+
+    if (onOff) {
+        var div="<div id='loadding' class='box'><div class='image'><img src='assets/images/loading-kutto.svg'></div></div>";
+        jQuery.blockUI({
+            message: div,
+            css: {
+                border: 'none',
+                padding: '0px',
+                backgroundColor: ''
+            },
+            overlayCSS: {
+                backgroundColor: 'black',
+                opacity: 0.3
+            },
+            baseZ: index
+        });
+
+        index = index + 1;
+    }
+    else {
+        jQuery.unblockUI();
+    }
 }

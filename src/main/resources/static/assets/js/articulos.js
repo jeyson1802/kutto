@@ -196,10 +196,23 @@ function cargarArticulo(codigoArticulo){
         url : '/buscararticulo?codigoArticulo=' + codigoArticulo,
         dataType: 'json',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
+        },
+        error: function (xhr, status, error) {
+            loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo cargar el producto", xhr.responseJSON.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
         },
         success:function(result,textStatus,xhr){
-            //loadding(false);
+            loadding(false);
 			if(xhr.status == HttpStatus.OK){
                 cargarModalArticulo(result);
             }
@@ -217,10 +230,10 @@ function eliminarArticulo(codigoArticulo){
         url : '/eliminararticulo?codigoArticulo=' + codigoArticulo,
         dataType: 'text',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 var data = JSON.parse(xhr.responseText);
@@ -237,7 +250,7 @@ function eliminarArticulo(codigoArticulo){
 
 			if(xhr.status == HttpStatus.OK){
 
-                //loadding(false);
+                loadding(false);
 
 			    mostrarMensajeOK("Buen Trabajo!", "Producto Eliminado Satisfactoriamente");
 
@@ -302,10 +315,10 @@ function guardarArticulo() {
     	url : '/guardararticulo',
     	data: formData,
     	beforeSend: function(xhr) {
-    		//loadding(true);
+    		loadding(true);
     	},
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 var data = JSON.parse(xhr.responseText);
@@ -319,7 +332,7 @@ function guardarArticulo() {
 
         },
     	success:function(resultado,textStatus,xhr){
-            //loadding(false);
+            loadding(false);
 
     		if(xhr.status == HttpStatus.OK) {
 

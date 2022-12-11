@@ -149,10 +149,23 @@ function cargarCita(codigoCita){
         url : '/buscarreserva/' + codigoCita,
         dataType: 'json',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
+        },
+        error: function (xhr, status, error) {
+            loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo cargar la cita", xhr.responseJSON.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
         },
         success:function(result,textStatus,xhr){
-            //loadding(false);
+            loadding(false);
 			if(xhr.status == HttpStatus.OK){
                 cargarModalCita(result);
             }
@@ -170,10 +183,10 @@ function eliminarCita(codigoCita){
         url : '/eliminarcita?codigoCita=' + codigoCita,
         dataType: 'text',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 var data = JSON.parse(xhr.responseText);
@@ -188,7 +201,7 @@ function eliminarCita(codigoCita){
         },
         success:function(result,textStatus,xhr){
 
-            //loadding(false);
+            loadding(false);
 
 			if(xhr.status == HttpStatus.OK){
 
@@ -233,10 +246,10 @@ function modificarCita() {
         data: JSON.stringify(cita),
         dataType: 'json',
         beforeSend: function (xhr) {
-            //loadding(true);
+            loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 var data = JSON.parse(xhr.responseText);
@@ -251,7 +264,7 @@ function modificarCita() {
         },
         success: function (result, textStatus, xhr) {
 
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status == HttpStatus.OK) {
 

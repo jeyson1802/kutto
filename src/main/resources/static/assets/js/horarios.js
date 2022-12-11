@@ -143,16 +143,28 @@ function cargarCitaDisponible(codigoCitaDisponible){
         url : '/buscarhorario?codigoCitaDisponible=' + codigoCitaDisponible,
         dataType: 'json',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
+        },
+        error: function (xhr, status, error) {
+            loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo cargar el Horario", xhr.responseJSON.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
         },
         success:function(result,textStatus,xhr) {
 
-            //loadding(false);
+            loadding(false);
 
 			if(xhr.status == HttpStatus.OK){
                 cargarModalCitaDisponible(result);
             }
-
         }
     });
 }
@@ -166,10 +178,10 @@ function eliminarCitaDisponible(codigoCitaDisponible){
         url : '/eliminarhorario?codigoCitaDisponible=' + codigoCitaDisponible,
         dataType: 'text',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 var data = JSON.parse(xhr.responseText);
@@ -184,7 +196,7 @@ function eliminarCitaDisponible(codigoCitaDisponible){
         },
         success:function(result,textStatus,xhr){
 
-            //loadding(false);
+            loadding(false);
 
 			if(xhr.status == HttpStatus.OK){
 
@@ -227,10 +239,10 @@ function guardarCitaDisponible() {
         data: JSON.stringify(horario),
         dataType: 'json',
         beforeSend: function (xhr) {
-            //loadding(true);
+            loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 mostrarMensajeAdvertencia("No se pudo guardar el Horario", xhr.responseJSON.message);
@@ -243,7 +255,7 @@ function guardarCitaDisponible() {
         },
         success: function (result, textStatus, xhr) {
 
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status == HttpStatus.OK) {
 

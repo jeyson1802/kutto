@@ -119,11 +119,24 @@ function cargarTipoArticulo(codigoTipoArticulo){
         url : '/buscartipoarticulo?codigoTipoArticulo=' + codigoTipoArticulo,
         dataType: 'json',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
+        },
+        error: function (xhr, status, error) {
+            loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo cargar la categoría", xhr.responseJSON.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
         },
         success:function(result,textStatus,xhr){
 
-            //loadding(false);
+            loadding(false);
 
 			if(xhr.status == HttpStatus.OK){
                 cargarModalTipoArticulo(result);
@@ -141,10 +154,10 @@ function eliminarTipoArticulo(codigoTipoArticulo){
         url : '/eliminartipoarticulo?codigoTipoArticulo=' + codigoTipoArticulo,
         dataType: 'text',
         beforeSend: function(xhr) {
-        	//loadding(true);
+        	loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 var data = JSON.parse(xhr.responseText);
@@ -159,7 +172,7 @@ function eliminarTipoArticulo(codigoTipoArticulo){
         },
         success:function(result,textStatus,xhr){
 
-            //loadding(false);
+            loadding(false);
 
 			if(xhr.status == HttpStatus.OK){
 
@@ -198,10 +211,10 @@ function guardarTipoArticulo() {
         data: JSON.stringify(tipo_articulo),
         dataType: 'json',
         beforeSend: function (xhr) {
-            //loadding(true);
+            loadding(true);
         },
         error: function (xhr, status, error) {
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
                 mostrarMensajeAdvertencia("No se pudo guardar la Categoría", xhr.responseJSON.message);
@@ -214,7 +227,7 @@ function guardarTipoArticulo() {
         },
         success: function (result, textStatus, xhr) {
 
-            //loadding(false);
+            loadding(false);
 
             if (xhr.status == HttpStatus.OK) {
 
