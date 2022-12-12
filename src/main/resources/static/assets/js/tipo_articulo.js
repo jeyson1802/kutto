@@ -82,12 +82,18 @@ function inicializarComponentes(){
 
     $('#datatable_tipo_articulo tbody').on( 'click','.btn-edit', function (){
         var data = table.row( $(this).closest('tr')).data();
+        if(data === undefined) {
+            data = table.row( $(this).closest('tr').prev('tr')).data();
+        }
     	cargarTipoArticulo(data.codigoTipoArticulo);
     });
 
     $('#datatable_tipo_articulo tbody').on( 'click','.btn-delete', function (){
-         var data = table.row( $(this).closest('tr')).data();
-         mostrarConfirmacion("¿Está seguro de eliminar la categoría?", "No se podrá revertir el cambio.", eliminarTipoArticulo, data.codigoTipoArticulo);
+        var data = table.row( $(this).closest('tr')).data();
+        if(data === undefined) {
+            data = table.row( $(this).closest('tr').prev('tr')).data();
+        }
+        mostrarConfirmacion("¿Está seguro de eliminar la categoría?", "No se podrá revertir el cambio.", eliminarTipoArticulo, data.codigoTipoArticulo);
      });
 
      validacionFormularioRegistroTipoArticulo();

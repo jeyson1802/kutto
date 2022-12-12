@@ -75,6 +75,22 @@ table.dataTable tbody tr td {
     color: #f32f53;
 }
 
+.fv-plugins-icon {
+    z-index: -10;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    padding-right: 0.75rem;
+}
+
+.form-control.is-valid, .was-validated .form-control:valid {
+    padding-right: 0.75rem;
+}
+
+.form-select {
+    background-image: none;
+}
+
 #page-topbar {
   position: fixed;
   top: 0;

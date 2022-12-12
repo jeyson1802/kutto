@@ -94,7 +94,7 @@ function inicializarComponentes(){
                     "width": "10px",
                     "targets": [7],
                     "data": "observaciones",
-                    "visible": false
+                    "visible": true
                 },
                 {
                         "width": "10px",
@@ -125,11 +125,17 @@ function inicializarComponentes(){
 
     $('#datatable_citas tbody').on( 'click','.btn-edit', function (){
         var data = table.row( $(this).closest('tr')).data();
+        if(data === undefined) {
+            data = table.row( $(this).closest('tr').prev('tr')).data();
+        }
     	cargarCita(data.codigoCita);
     });
 
     $('#datatable_citas tbody').on( 'click','.btn-delete', function (){
         var data = table.row( $(this).closest('tr')).data();
+        if(data === undefined) {
+            data = table.row( $(this).closest('tr').prev('tr')).data();
+        }
         mostrarConfirmacion("¿Está seguro de eliminar la Cita?", "No se podrá revertir el cambio.", eliminarCita, data.codigoCita);
     });
 

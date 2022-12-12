@@ -104,12 +104,18 @@ function inicializarComponentes(){
 
     $('#datatable_horario tbody').on( 'click','.btn-edit', function (){
         var data = table.row( $(this).closest('tr')).data();
+        if(data === undefined) {
+            data = table.row( $(this).closest('tr').prev('tr')).data();
+        }
     	cargarCitaDisponible(data.codigoCitaDisponible);
     });
 
     $('#datatable_horario tbody').on( 'click','.btn-delete', function (){
-         var data = table.row( $(this).closest('tr')).data();
-         mostrarConfirmacion("¿Está seguro de eliminar el Horario?", "No se podrá revertir el cambio.", eliminarCitaDisponible, data.codigoCitaDisponible);
+        var data = table.row( $(this).closest('tr')).data();
+        if(data === undefined) {
+            data = table.row( $(this).closest('tr').prev('tr')).data();
+        }
+        mostrarConfirmacion("¿Está seguro de eliminar el Horario?", "No se podrá revertir el cambio.", eliminarCitaDisponible, data.codigoCitaDisponible);
      });
 
      validacionFormularioRegistroHorario();
