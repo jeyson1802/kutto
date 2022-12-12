@@ -171,103 +171,115 @@ function validacionFormularioRegistroArticulo() {
                     txt_titulo: {
                         validators: {
                             notEmpty: {
-                                message: 'Los nombres son obligatorios.',
+                                message: 'El título es obligatorio.',
                             },
                             stringLength: {
-                                max: 200,
-                                message: 'Los nombres no puede sobrepasar 200 caracteres.',
+                                max: 100,
+                                message: 'El título no puede sobrepasar 100 caracteres.',
                             },
                         },
                     },
                     txt_sku: {
                         validators: {
                             notEmpty: {
-                                message: 'Los apellidos son obligatorios.',
+                                message: 'El código SKU es obligatorio.',
                             },
                             stringLength: {
-                                max: 200,
-                                message: 'Los apellidos no puede sobrepasar 200 caracteres.',
+                                max: 50,
+                                message: 'El código SKU no puede sobrepasar 50 caracteres.',
                             },
                         },
                     },
                     txt_descripcion_corta: {
                         validators: {
                             notEmpty: {
-                                message: 'El correo es obligatorio.',
+                                message: 'La descripción corta es obligatoria.',
                             },
                             stringLength: {
-                                max: 200,
-                                message: 'El correo no puede sobrepasar 200 caracteres.',
+                                max: 100,
+                                message: 'La descripción corta no puede sobrepasar 100 caracteres.',
                             },
                         },
                     },
                     txt_descripcion_larga: {
                         validators: {
                             notEmpty: {
-                                message: 'El celular es obligatorio.',
+                                message: 'La descripción larga es obligatoria.',
                             },
                             stringLength: {
-                                max: 20,
-                                message: 'El celular no puede sobrepasar 20 caracteres.',
+                                max: 250,
+                                message: 'La descripción larga no puede sobrepasar 250 caracteres.',
                             },
                         },
                     },
                     sel_categoria: {
                         validators: {
                             notEmpty: {
-                                message: 'El celular es obligatorio.',
+                                message: 'La categoría es obligatoria.',
                             }
                         },
                     },
                     txt_precio: {
                         validators: {
-                            integer: {
-                                message: 'Debe ingresar un valor numérico.',
-                            },
-                            integer: {
-                                message: 'Debe ingresar un valor numérico.',
-                            },
-                            checkNumeroCelular : {
-                                message: 'Número de celular inválido.'
+                            notEmpty: {
+                                message: 'El precio es obligatorio.',
                             },
                             stringLength: {
-                                max: 20,
-                                message: 'El celular no puede sobrepasar 20 caracteres.',
+                                max: 13,
+                                message: 'El precio no puede sobrepasar 13 caracteres.',
                             },
                             regexp: {
-                                regexp: /^[a-zA-Z0-9_]+$/,
-                                message: 'The username can only consist of alphabetical, number and underscore',
+                                regexp: /^\d+(\.\d{1,2})?$/,
+                                message: 'El precio debe tener formato de montos, con máximo 2 decimales.',
                             },
                         },
                     },
                     txt_stock: {
                         validators: {
-                            integer: {
-                                message: 'Debe ingresar un valor numérico.',
+                            notEmpty: {
+                                message: 'El stock es obligatorio.',
                             },
                             integer: {
                                 message: 'Debe ingresar un valor numérico.',
-                            },
-                            checkNumeroCelular : {
-                                message: 'Número de celular inválido.'
                             },
                             stringLength: {
-                                max: 20,
-                                message: 'El celular no puede sobrepasar 20 caracteres.',
+                                max: 5,
+                                message: 'El stock no puede sobrepasar 5 caracteres.',
                             },
                         },
                     },
                     txt_observaciones: {
                         validators: {
-                            notEmpty: {
-                                message: 'Debe seleccionar un país.',
+                            stringLength: {
+                                max: 250,
+                                message: 'El stock no puede sobrepasar 250 caracteres.',
                             },
                         },
                     },
                 },
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
-                    bootstrap3: new FormValidation.plugins.Bootstrap5(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                         rowSelector: function (field, ele) {
+                             // field is the field name
+                             // ele is the field element
+                             switch (field) {
+                                 case 'txt_titulo':
+                                 case 'txt_sku':
+                                 case 'txt_descripcion_corta':
+                                     return '.col-md-4';
+                                 case 'txt_descripcion_corta':
+                                 case 'txt_observaciones':
+                                     return '.col-md-12';
+                                 case 'sel_categoria':
+                                 case 'txt_precio':
+                                 case 'txt_stock':
+                                     return '.col-md-4';
+                                 default:
+                                     return '.row';
+                             }
+                         },
+                     }),
                     submitButton: new FormValidation.plugins.SubmitButton(),
                     icon: new FormValidation.plugins.Icon({
                         valid: 'fa fa-check',
@@ -276,18 +288,8 @@ function validacionFormularioRegistroArticulo() {
                     }),
                 },
             }
-        ).registerValidator('checkNumeroCelular', esNumeroCelularValido);
+        );
 }
-
-const esNumeroCelularValido = function () {
-    return {
-        validate: function (input) {
-            return {
-               valid: true,
-            };
-        },
-    };
-};
 
 function previsualizar(elemento) {
     
@@ -403,6 +405,8 @@ function eliminarArticulo(codigoArticulo){
 }
 
 function cargarModalArticulo(articulo) {
+
+    form_registro_articulo_validation.resetForm(false);
 
     hid_codigo_articulo.val(articulo.codigoArticulo);
     h5_titulo.html("Producto " + articulo.codigoArticulo);
