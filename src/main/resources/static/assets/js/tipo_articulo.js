@@ -6,6 +6,7 @@ var txt_descripcion;
 var btn_guardar;
 var btn_agregar_tipo_articulo;
 var h5_titulo;
+var form_registro_tipo_articulo_validation;
 
 $(document).ready(function(){
     inicializarVariables();
@@ -88,12 +89,18 @@ function inicializarComponentes(){
          var data = table.row( $(this).closest('tr')).data();
          mostrarConfirmacion("¿Está seguro de eliminar la categoría?", "No se podrá revertir el cambio.", eliminarTipoArticulo, data.codigoTipoArticulo);
      });
+
+     validacionFormularioRegistroTipoArticulo();
 }
 
 function inicializarEventos(){
 
    btn_guardar.on('click', function() {
-       	guardarTipoArticulo();
+        form_registro_tipo_articulo_validation.validate().then(function(status) {
+            if(status === 'Valid') {
+               guardarTipoArticulo();
+            }
+        });
    });
 
    btn_agregar_tipo_articulo.on('click', function() {
@@ -102,8 +109,51 @@ function inicializarEventos(){
 
 }
 
+function validacionFormularioRegistroTipoArticulo() {
+
+    form_registro_tipo_articulo_validation = FormValidation.formValidation(document.getElementById('form_tipo_articulo'),
+            {
+                fields: {
+                    txt_descripcion: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La descripción es obligatoria.',
+                            },
+                            stringLength: {
+                                max: 150,
+                                message: 'La descripción no puede sobrepasar 150 caracteres.',
+                            },
+                        },
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                         rowSelector: function (field, ele) {
+                             // field is the field name
+                             // ele is the field element
+                             switch (field) {
+                                 case 'txt_descripcion':
+                                     return '.col-md-12';
+                                 default:
+                                     return '.row';
+                             }
+                         },
+                     }),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: 'fa fa-check',
+                        invalid: 'fa fa-times',
+                        validating: 'fa fa-refresh',
+                    }),
+                },
+            }
+        );
+}
+
 function agregarTipoArticulo(){
 
+    form_registro_tipo_articulo_validation.resetForm(false);
     hid_codigo_tipo_articulo.val(CADENA_VACIA);
     h5_titulo.html("Nueva Categoría");
     txt_descripcion.val(CADENA_VACIA);
@@ -191,6 +241,7 @@ function eliminarTipoArticulo(codigoTipoArticulo){
 
 function cargarModalTipoArticulo(tipo_articulo) {
 
+    form_registro_tipo_articulo_validation.resetForm(false);
     hid_codigo_tipo_articulo.val(tipo_articulo.codigoTipoArticulo);
     h5_titulo.html("Categoría " + tipo_articulo.codigoTipoArticulo);
     txt_descripcion.val(tipo_articulo.descripcion);

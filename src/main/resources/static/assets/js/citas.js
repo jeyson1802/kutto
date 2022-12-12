@@ -10,6 +10,7 @@ var txt_correo;
 var sel_estado;
 var txt_observaciones;
 var btn_guardar;
+var form_registro_cita_validation;
 
 $(document).ready(function(){
     inicializarVariables();
@@ -92,7 +93,8 @@ function inicializarComponentes(){
                 {
                     "width": "10px",
                     "targets": [7],
-                    "data": "observaciones"
+                    "data": "observaciones",
+                    "visible": false
                 },
                 {
                         "width": "10px",
@@ -130,14 +132,69 @@ function inicializarComponentes(){
         var data = table.row( $(this).closest('tr')).data();
         mostrarConfirmacion("¿Está seguro de eliminar la Cita?", "No se podrá revertir el cambio.", eliminarCita, data.codigoCita);
     });
+
+    validacionFormularioRegistroCita();
 }
 
 function inicializarEventos(){
 
     btn_guardar.on('click', function() {
-       	modificarCita();
+
+        form_registro_cita_validation.validate().then(function(status) {
+            if(status === 'Valid') {
+               modificarCita();
+            }
+        });
    });
 
+}
+
+function validacionFormularioRegistroCita() {
+
+    form_registro_cita_validation = FormValidation.formValidation(document.getElementById('form_cita'),
+            {
+                fields: {
+                    sel_estado: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La categoría es obligatoria.',
+                            }
+                        },
+                    },
+                    txt_observaciones: {
+                        validators: {
+                            stringLength: {
+                                max: 250,
+                                message: 'El stock no puede sobrepasar 250 caracteres.',
+                            },
+                        },
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                         rowSelector: function (field, ele) {
+                             // field is the field name
+                             // ele is the field element
+                             switch (field) {
+                                 case 'sel_estado':
+                                     return '.col-md-4';
+                                 case 'txt_observaciones':
+                                     return '.col-md-12';
+                                 default:
+                                     return '.row';
+                             }
+                         },
+                     }),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: 'fa fa-check',
+                        invalid: 'fa fa-times',
+                        validating: 'fa fa-refresh',
+                    }),
+                },
+            }
+        );
 }
 
 function cargarCita(codigoCita){
@@ -220,6 +277,7 @@ function eliminarCita(codigoCita){
 
 function cargarModalCita(cita){
 
+    form_registro_cita_validation.resetForm(false);
     txt_codigo_cita.val(cita.codigoCita);
     txt_fecha.val($.date(cita.fecha));
     txt_hora.val(cita.horario);

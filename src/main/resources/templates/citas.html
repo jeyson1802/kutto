@@ -93,7 +93,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form id="form_cita" action="#" method="post" role="form">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="mb-3">
@@ -131,15 +131,15 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-8">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_correo" class="form-label">Correo</label>
                                                     <input type="text" class="form-control" id="txt_correo" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="sel_estado" class="form-label">Estado</label>
-                                                    <select class="form-select" id="sel_estado">
+                                                    <select class="form-select" id="sel_estado" name="sel_estado">
                                                         <option th:each="estado : ${listaEstados}" th:value="${estado.codigoEstadoCita}" th:text="${estado.descripcion}"></option>
                                                     </select>
                                                 </div>
@@ -147,9 +147,9 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_observaciones" class="form-label">Observaciones</label>
-                                                    <input type="text" class="form-control" id="txt_observaciones">
+                                                    <input type="text" class="form-control" id="txt_observaciones" name="txt_observaciones">
                                                 </div>
                                             </div>
                                         </div>

@@ -93,25 +93,25 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
+                                    <form id="form_horario" action="#" method="post" role="form">
                                         <input type="hidden" class="form-control" id="hid_codigo_horario" >
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_fecha" class="form-label">Fecha</label>
-                                                    <input type="date" class="form-control" id="txt_fecha" >
+                                                    <input type="date" class="form-control" id="txt_fecha" name="txt_fecha">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="txt_hora" class="form-label">Hora</label>
-                                                    <input type="time" class="form-control" id="txt_hora" >
+                                                    <input type="time" class="form-control" id="txt_hora" name="txt_hora">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="mb-3">
+                                                <div class="form-group mb-3">
                                                     <label for="sel_disponibilidad" class="form-label">Disponibilidad</label>
-                                                    <select class="form-select" id="sel_disponibilidad">
+                                                    <select class="form-select" id="sel_disponibilidad" name="sel_disponibilidad">
                                                         <option value="1">DISPONIBLE</option>
                                                         <option value="0">OCUPADO</option>
                                                     </select>

@@ -8,6 +8,7 @@ var sel_disponibilidad;
 var btn_guardar;
 var btn_agregar_horario;
 var h5_titulo;
+var form_registro_horario_validation;
 
 $(document).ready(function(){
     inicializarVariables();
@@ -110,12 +111,18 @@ function inicializarComponentes(){
          var data = table.row( $(this).closest('tr')).data();
          mostrarConfirmacion("¿Está seguro de eliminar el Horario?", "No se podrá revertir el cambio.", eliminarCitaDisponible, data.codigoCitaDisponible);
      });
+
+     validacionFormularioRegistroHorario();
 }
 
 function inicializarEventos(){
 
    btn_guardar.on('click', function() {
-       	guardarCitaDisponible();
+        form_registro_horario_validation.validate().then(function(status) {
+            if(status === 'Valid') {
+               guardarCitaDisponible();
+            }
+        });
    });
 
    btn_agregar_horario.on('click', function() {
@@ -124,8 +131,63 @@ function inicializarEventos(){
 
 }
 
+function validacionFormularioRegistroHorario() {
+
+    form_registro_horario_validation = FormValidation.formValidation(document.getElementById('form_horario'),
+            {
+                fields: {
+                    txt_fecha: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La fecha es obligatoria.',
+                            }
+                        },
+                    },
+                    txt_hora: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La hora es obligatoria.',
+                            }
+                        },
+                    },
+                    sel_disponibilidad: {
+                        validators: {
+                            notEmpty: {
+                                message: 'La disponibilidad es obligatoria.',
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap5: new FormValidation.plugins.Bootstrap5({
+                         rowSelector: function (field, ele) {
+                             // field is the field name
+                             // ele is the field element
+                             switch (field) {
+                                 case 'txt_fecha':
+                                 case 'txt_hora':
+                                 case 'sel_disponibilidad':
+                                     return '.col-md-4';
+                                 default:
+                                     return '.row';
+                             }
+                         },
+                     }),
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: 'fa fa-check',
+                        invalid: 'fa fa-times',
+                        validating: 'fa fa-refresh',
+                    }),
+                },
+            }
+        );
+}
+
 function agregarCitaDisponible(){
 
+    form_registro_horario_validation.resetForm(false);
     hid_codigo_horario.val(CADENA_VACIA);
     h5_titulo.html("Nuevo Horario");
     txt_fecha.val(CADENA_VACIA);
@@ -215,6 +277,7 @@ function eliminarCitaDisponible(codigoCitaDisponible){
 
 function cargarModalCitaDisponible(horario) {
 
+    form_registro_horario_validation.resetForm(false);
     hid_codigo_horario.val(horario.codigoCitaDisponible);
     h5_titulo.html("Horario " + horario.codigoCitaDisponible);
     txt_fecha.val(horario.fechaReserva);
