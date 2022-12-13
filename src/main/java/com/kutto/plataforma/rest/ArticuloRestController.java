@@ -67,4 +67,13 @@ public class ArticuloRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/listararticulosportitulo")
+    public ResponseEntity<List<ArticuloDto>> listarArticulosPorTitulo(@RequestParam("titulo") String titulo) throws Exception {
+
+        logger.info("Inicio listarArticulos.......");
+        List<ArticuloDto> litsArticuloDto = articuloService.listarArticulosPorTituloConStock(titulo);
+        logger.info("Fin listarArticulos.......");
+
+        return new ResponseEntity<>(litsArticuloDto, HttpStatus.OK);
+    }
 }

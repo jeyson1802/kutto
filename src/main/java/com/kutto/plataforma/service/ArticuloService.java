@@ -19,4 +19,6 @@ public interface ArticuloService {
 
     void eliminarArticulo(String codigoArticulo) throws Exception;
 
+    List<ArticuloDto> listarArticulosPorTituloConStock(String titulo) throws Exception;
+
 }

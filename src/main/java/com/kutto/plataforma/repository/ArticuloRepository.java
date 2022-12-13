@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface ArticuloRepository extends JpaRepository<Articulo, String> {
     List<Articulo> findByTipoArticulo_CodigoTipoArticuloAndActivo(String codigoTipoArticulo, Integer activo);
 
     List<Articulo> findByCodigoEstandarAndActivo(String codigoEstandar, Integer activo);
+
+    List<Articulo> findByTituloContainsAndStockGreaterThanAndActivo(String titulo, Integer stock, Integer activo);
+
 
 
 }

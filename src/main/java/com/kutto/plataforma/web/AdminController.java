@@ -64,4 +64,11 @@ public class AdminController {
 
         return "horarios";
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/venta")
+    public String venta(Model model) throws Exception {
+
+        return "venta";
+    }
 }

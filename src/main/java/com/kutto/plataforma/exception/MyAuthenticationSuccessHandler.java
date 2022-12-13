@@ -21,7 +21,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         if (roles.contains("ROLE_ADMIN")) {
             request.getSession(false).setMaxInactiveInterval(60000);
-            response.sendRedirect(request.getContextPath() + "/horarios");
+            response.sendRedirect(request.getContextPath() + "/venta");
         } else if(roles.contains("ROLE_ATENCION")) {
             request.getSession(false).setMaxInactiveInterval(120);
             response.sendRedirect(request.getContextPath() + "/citas");

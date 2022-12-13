@@ -47,6 +47,11 @@ table.dataTable tbody tr td {
     margin-bottom: 24px;
 }
 
+.button-save {
+    margin-top: 20px;
+    text-align: right;
+}
+
 .btn-login {
     color: #fff;
     background-color: #F04336;
@@ -91,6 +96,36 @@ table.dataTable tbody tr td {
     background-image: none;
 }
 
+table.tabledinamic tbody tr td {
+    padding-top: 9px !important;
+    padding-bottom: 10px !important;
+}
+.select2-container .select2-selection--single {
+    height: 38.69px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38.69px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38.69px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    cursor: pointer;
+    font-weight: bold;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.15em;
+    padding-left: 0.3em;
+    margin-top: 0.7rem;
+    border-radius: 100%;
+    background-color: #6c757d;
+    color: #f8f9fa;
+    float: right;
+    margin-right: 0.3em;
+}
 #page-topbar {
   position: fixed;
   top: 0;

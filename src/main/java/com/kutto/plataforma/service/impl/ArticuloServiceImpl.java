@@ -145,4 +145,14 @@ public class ArticuloServiceImpl implements ArticuloService {
 
     }
 
+    @Override
+    public List<ArticuloDto> listarArticulosPorTituloConStock(String titulo) throws Exception {
+
+        List<Articulo> listArticulo = articuloRepository.findByTituloContainsAndStockGreaterThanAndActivo(titulo, 0, Constante.COD_ACTIVO);
+
+        List<ArticuloDto> listArticuloDto = listArticulo.stream().map(articulo -> modelMapper.map(articulo, ArticuloDto.class)).collect(Collectors.toList());
+
+        return  listArticuloDto;
+    }
+
 }
