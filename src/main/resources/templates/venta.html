@@ -68,41 +68,63 @@
                     <h4 class="card-title">Datos del Comprobante</h4>
                     <p class="card-title-desc">Completar los datos generales del comprobante.
                     </p>
-                    <form class="needs-validation" novalidate="">
+                    <form>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="validationCustom01" class="form-label">First name</label>
-                                    <input type="text" class="form-control" id="validationCustom01" placeholder="First name" value="Mark" required="">
+                            <div class="col-md-3">
+                                <div class="form-group mb-3">
+                                    <label for="sel_tipo_comprobante" class="form-label">Tipo Comprobante</label>
+                                    <select class="form-select" id="sel_tipo_comprobante" name="sel_tipo_comprobante">
+                                        <option value="01">Factura</option>
+                                        <option value="02">Boleta</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="validationCustom02" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" value="Otto" required="">
+                            <div class="col-md-3">
+                                <div class="form-group mb-3">
+                                    <label for="sel_serie" class="form-label">Serie</label>
+                                    <select class="form-select" id="sel_serie" name="sel_serie">
+                                        <option value="FE01">FE01</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group mb-3">
+                                    <label for="txt_fecha_emision" class="form-label">Fecha Emisión</label>
+                                    <input type="date" class="form-control" id="txt_fecha_emision" name="txt_fecha_emision">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group mb-3">
+                                    <label for="txt_fecha_vencimiento" class="form-label">Fecha Vencimiento</label>
+                                    <input type="date" class="form-control" id="txt_fecha_vencimiento" name="txt_fecha_vencimiento">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="validationCustom03" class="form-label">State</label>
-                                    <select class="form-select" id="validationCustom03" required="">
-                                        <option selected="" disabled="" value="">Choose...</option>
-                                        <option>...</option>
-                                    </select>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="txt_cliente" class="form-label">Cliente</label>
+                                    <input type="text" class="form-control" id="txt_cliente" name="txt_cliente">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="validationCustom04" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="validationCustom04" placeholder="City" required="">
+                            <div class="col-md-3">
+                                <div class="form-group mb-3">
+                                    <label for="txt_documento" class="form-label">Documento</label>
+                                    <input type="text" class="form-control" id="txt_documento" name="txt_documento">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="validationCustom05" class="form-label">Zip</label>
-                                    <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required="">
+                            <div class="col-md-3">
+                                <div class="form-group mb-3">
+                                    <label for="txt_email" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="txt_email" name="txt_email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="txt_direccion" class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" id="txt_direccion" name="txt_direccion">
                                 </div>
                             </div>
                         </div>

@@ -92,6 +92,11 @@ table.dataTable tbody tr td {
     padding-right: 0.75rem;
 }
 
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-width: 6px !important;
+    margin-left: -10px !important;
+}
+
 .form-select {
     background-image: none;
 }
