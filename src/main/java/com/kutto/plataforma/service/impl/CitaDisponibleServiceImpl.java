@@ -1,12 +1,9 @@
 package com.kutto.plataforma.service.impl;
 
 import com.kutto.plataforma.dto.CitaDisponibleDto;
-import com.kutto.plataforma.dto.CitaDisponibleDto;
 import com.kutto.plataforma.enums.EnumErrores;
 import com.kutto.plataforma.exception.UnprocessableEntityException;
-import com.kutto.plataforma.model.Articulo;
 import com.kutto.plataforma.model.Cita;
-import com.kutto.plataforma.model.CitaDisponible;
 import com.kutto.plataforma.model.CitaDisponible;
 import com.kutto.plataforma.repository.CitaDisponibleRepository;
 import com.kutto.plataforma.repository.CitaRepository;
@@ -20,11 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Instant;
 import java.time.LocalDate;

@@ -1,6 +1,5 @@
 package com.kutto.plataforma.service.impl;
 
-import com.kutto.plataforma.dto.CitaDto;
 import com.kutto.plataforma.dto.TipoArticuloDto;
 import com.kutto.plataforma.enums.EnumErrores;
 import com.kutto.plataforma.exception.UnprocessableEntityException;

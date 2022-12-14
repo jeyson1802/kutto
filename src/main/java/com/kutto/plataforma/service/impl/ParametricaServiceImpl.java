@@ -1,13 +1,8 @@
 package com.kutto.plataforma.service.impl;
 
-import com.kutto.plataforma.dto.TipoArticuloDto;
 import com.kutto.plataforma.model.Parametrica;
-import com.kutto.plataforma.model.TipoArticulo;
 import com.kutto.plataforma.repository.ParametricaRepository;
-import com.kutto.plataforma.repository.TipoArticuloRepository;
 import com.kutto.plataforma.service.ParametricaService;
-import com.kutto.plataforma.service.TipoArticuloService;
-import com.kutto.plataforma.util.Constante;
 import com.kutto.plataforma.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -16,9 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ParametricaServiceImpl implements ParametricaService {
