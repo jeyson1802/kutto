@@ -68,7 +68,7 @@
                     <h4 class="card-title">Datos del Comprobante</h4>
                     <p class="card-title-desc">Completar los datos generales del comprobante.
                     </p>
-                    <form>
+                    <form id="form_venta">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group mb-3">
@@ -162,31 +162,31 @@
                                 <td colspan="5" rowspan="1">
                                     <div class="form-group m-b-10">
                                         <label>Glosa</label>
-                                        <textarea name="Glosa" id="txtGlosa" rows="4" class="form-control" maxlength="250"></textarea>
+                                        <textarea id="txt_glosa" rows="4" class="form-control" maxlength="250"></textarea>
                                     </div>
                                 </td>
                             </tr>
-                            <tr id="trSubTotal">
+                            <tr id="tr_subtotal">
                                 <th colspan="4" style="text-align:right" rowspan="1">Sub Total (<span class="spMoneda">S/</span>):</th>
-                                <th rowspan="1" colspan="1"><input type="text" id="txtSubTotal" class="form-control text-end input-sm price" placeholder="Sub Total" disabled=""></th>
+                                <th rowspan="1" colspan="1"><input type="text" id="txt_subtotal" class="form-control text-end input-sm price" placeholder="Sub Total" disabled=""></th>
                             </tr>
-                            <tr id="trIva">
+                            <tr id="tr_igv">
                                 <th colspan="3" style="text-align:right;margin-right: -20px;" rowspan="1">
                                     IGV (%):</th>
                                 <th colspan="1" style="text-align:right" rowspan="1">
-                                    <input type="text" id="txtIva" style="width: 85%;margin-left:10px;float:right;" class="form-control text-end input-sm required price pull-right" width="50" placeholder="IGV" disabled="">
+                                    <input type="text" id="txt_igv" value="18"  style="width: 85%;margin-left:10px;float:right;" class="form-control text-end input-sm required price pull-right" width="50" placeholder="IGV" disabled="">
                                 </th>
-                                <th rowspan="1" colspan="1"><input type="text" id="txtIvaSubTotal" class="form-control text-end input-sm price" placeholder="Sub Total" disabled=""></th>
+                                <th rowspan="1" colspan="1"><input type="text" id="txt_monto_igv" class="form-control text-end input-sm price" placeholder="Sub Total" disabled=""></th>
                             </tr>
                             <tr>
                                 <th colspan="4" style="text-align:right" rowspan="1">Total (<span class="spMoneda">S/</span>):</th>
-                                <th rowspan="1" colspan="1"><input type="text" id="txtTotal" class="form-control text-end input-sm price" placeholder="Total" disabled=""></th>
+                                <th rowspan="1" colspan="1"><input type="text" id="txt_total" class="form-control text-end input-sm price" placeholder="Total" disabled=""></th>
                             </tr>
                         </tfoot>
                     </table>
 
                     <div class="button-save">
-                        <button id="btn_agregar_articulo" type="button" class="btn btn-info btn-rounded waves-effect waves-light">Guardar</button>
+                        <button id="btn_guardar" type="button" class="btn btn-info btn-rounded waves-effect waves-light">Guardar</button>
                     </div>
                 </div>
             </div>

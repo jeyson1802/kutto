@@ -12,6 +12,12 @@ var HttpStatus = {
 	InternalServerError	: 500
 };
 
+var TipoComprobante = {
+	FACTURA : "01",
+	BOLETA	: "02"
+};
+
+
 $.date = function(dateObject) {
     var dateAr = dateObject.split('-');
     var newDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];

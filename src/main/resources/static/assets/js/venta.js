@@ -1,20 +1,21 @@
 var datatable_venta;
 var table;
-var modal_venta;
-var hid_codigo_venta;
-var txt_titulo;
-var txt_sku;
-var txt_descripcion_corta;
-var txt_descripcion_larga;
-var sel_categoria;
-var txt_precio;
-var txt_stock;
-var txt_observaciones;
+var sel_tipo_comprobante;
+var sel_serie;
+var txt_fecha_emision;
+var txt_fecha_vencimiento;
+var txt_cliente;
+var txt_documento;
+var txt_email;
+var txt_direccion;
+var tr_subtotal;
+var tr_igv;
+var txt_igv;
 var btn_guardar;
-var btn_agregar_venta;
-var file;
-var img_venta;
-var h5_titulo;
+var txt_glosa;
+var txt_subtotal;
+var txt_monto_igv;
+var txt_total;
 var form_registro_venta_validation;
 var fila;
 
@@ -27,21 +28,22 @@ $(document).ready(function(){
 function inicializarVariables() {
 
     datatable_venta = $("#datatable_venta");
-    modal_venta = $("#modal_venta");
-    hid_codigo_venta = $("#hid_codigo_venta");
-    txt_titulo = $("#txt_titulo");
-    txt_sku = $("#txt_sku");
-    txt_descripcion_corta = $("#txt_descripcion_corta");
-    txt_descripcion_larga = $("#txt_descripcion_larga");
-    sel_categoria = $("#sel_categoria");
-    txt_precio = $("#txt_precio");
-    txt_stock = $("#txt_stock");
-    txt_observaciones = $("#txt_observaciones");
+    sel_tipo_comprobante = $("#sel_tipo_comprobante");
+    sel_serie = $("#sel_serie");
+    txt_fecha_emision = $("#txt_fecha_emision");
+    txt_fecha_vencimiento = $("#txt_fecha_vencimiento");
+    txt_cliente = $("#txt_cliente");
+    txt_documento = $("#txt_documento");
+    txt_email = $("#txt_email");
+    txt_direccion = $("#txt_direccion");
+    tr_subtotal = $("#tr_subtotal");
+    tr_igv = $("#tr_igv");
+    txt_glosa = $("#txt_glosa");
     btn_guardar = $("#btn_guardar");
-    btn_agregar_venta = $("#btn_agregar_venta");
-    file = $("#file");
-    img_venta = $("#img_venta");
-    h5_titulo = $("#h5_titulo");
+    txt_subtotal = $("#txt_subtotal");
+    txt_igv = $("#txt_igv");
+    txt_monto_igv = $("#txt_monto_igv");
+    txt_total = $("#txt_total");
 
 }
 
@@ -63,7 +65,7 @@ function inicializarComponentes(){
 
      agregarFilaTabla(null);
 
-     validacionFormularioRegistroArticulo();
+     validacionFormularioRegistroVenta();
 }
 
 function inicializarEventos(){
@@ -72,19 +74,78 @@ function inicializarEventos(){
 
         form_registro_venta_validation.validate().then(function(status) {
             if(status === 'Valid') {
-                guardarArticulo();
+                guardarVenta();
             }
         });
 
    });
 
-   btn_agregar_venta.on('click', function() {
-       	agregarArticulo();
+   sel_tipo_comprobante.on('change', function() {
+        cambioTipoComprobante();
    });
 
-   file.on('change', function() {
-       previsualizar(this);
+   $('.txtPrecioUnitario,.txtCantidad').on('keyup', function (e) {
+
+       if (e.which == 13) return false;
+       var n = $(this).val();
+       if (n >= 0) {
+           calcularComprobante();
+       }
+       else {
+           $(this).val('');
+       }
    });
+
+}
+
+function cambioTipoComprobante() {
+
+    var tipoComporbante = sel_tipo_comprobante.val();
+
+    if(tipoComporbante == TipoComprobante.FACTURA) {
+        tr_subtotal.show();
+        tr_igv.show();
+    }
+
+    if(tipoComporbante == TipoComprobante.BOLETA) {
+        tr_subtotal.hide();
+        tr_igv.hide();
+    }
+}
+
+function calcularComprobante() {
+
+    var total = 0;
+
+    $(".txtProducto").each(function () {
+
+        var tr = $(this).closest('tr');
+        if ($(this).attr('data-id') != '0') {
+
+            var comboProd = $('#row-' + $(this).attr('data-id') + '-item').select2('data')[0];
+
+            if (comboProd != undefined) {
+                var p = parseFloat(tr.find('.txtPrecioUnitario').val());
+                var c = parseFloat(tr.find('.txtCantidad').val());
+                var st = parseFloat(p * c);
+
+                tr.find('.txtTotal').val(st.toFixed(2));
+                total += st;
+            }
+            else {
+                tr.find('.txtTotal').val('');
+            }
+        }
+    });
+
+    total = (total).toFixed(2);
+    var igv = ((parseFloat(txt_igv.val()) / 100) + 1).toFixed(2);
+    var subTotal = (total / igv).toFixed(2);
+    var igvSubTotal = (total - subTotal).toFixed(2);
+
+    txt_subtotal.val(subTotal);
+    txt_monto_igv.val(igvSubTotal);
+    txt_total.val(total);
 
 }
 
@@ -102,96 +163,43 @@ function eliminarProductosVacios() {
 
 }
 
-function validacionFormularioRegistroArticulo() {
+function validacionFormularioRegistroVenta() {
 
     form_registro_venta_validation = FormValidation.formValidation(document.getElementById('form_venta'),
             {
                 fields: {
-                    txt_titulo: {
+                    sel_tipo_comprobante: {
                         validators: {
                             notEmpty: {
-                                message: 'El título es obligatorio.',
-                            },
-                            stringLength: {
-                                max: 100,
-                                message: 'El título no puede sobrepasar 100 caracteres.',
+                                message: 'El Tipo de Comprobante es obligatorio.',
                             },
                         },
                     },
-                    txt_sku: {
+                    sel_serie: {
                         validators: {
                             notEmpty: {
-                                message: 'El código SKU es obligatorio.',
-                            },
-                            stringLength: {
-                                max: 50,
-                                message: 'El código SKU no puede sobrepasar 50 caracteres.',
+                                message: 'La serie es obligatorio.',
                             },
                         },
                     },
-                    txt_descripcion_corta: {
+                    txt_fecha_emision: {
                         validators: {
                             notEmpty: {
-                                message: 'La descripción corta es obligatoria.',
-                            },
-                            stringLength: {
-                                max: 100,
-                                message: 'La descripción corta no puede sobrepasar 100 caracteres.',
+                                message: 'La fecha de emisión es obligatoria.',
                             },
                         },
                     },
-                    txt_descripcion_larga: {
+                    txt_fecha_vencimiento: {
                         validators: {
                             notEmpty: {
-                                message: 'La descripción larga es obligatoria.',
-                            },
-                            stringLength: {
-                                max: 250,
-                                message: 'La descripción larga no puede sobrepasar 250 caracteres.',
+                                message: 'La fecha de vencimiento es obligatoria.',
                             },
                         },
                     },
-                    sel_categoria: {
+                    txt_cliente: {
                         validators: {
                             notEmpty: {
-                                message: 'La categoría es obligatoria.',
-                            }
-                        },
-                    },
-                    txt_precio: {
-                        validators: {
-                            notEmpty: {
-                                message: 'El precio es obligatorio.',
-                            },
-                            stringLength: {
-                                max: 13,
-                                message: 'El precio no puede sobrepasar 13 caracteres.',
-                            },
-                            regexp: {
-                                regexp: /^\d+(\.\d{1,2})?$/,
-                                message: 'El precio debe tener formato de montos, con máximo 2 decimales.',
-                            },
-                        },
-                    },
-                    txt_stock: {
-                        validators: {
-                            notEmpty: {
-                                message: 'El stock es obligatorio.',
-                            },
-                            integer: {
-                                message: 'Debe ingresar un valor numérico.',
-                            },
-                            stringLength: {
-                                max: 5,
-                                message: 'El stock no puede sobrepasar 5 caracteres.',
-                            },
-                        },
-                    },
-                    txt_observaciones: {
-                        validators: {
-                            stringLength: {
-                                max: 250,
-                                message: 'El stock no puede sobrepasar 250 caracteres.',
+                                message: 'El cliente es obligatorio.',
                             },
                         },
                     },
@@ -253,10 +261,10 @@ function agregarFilaTabla(item){
                     '<div class="input-group">' +
                         '<select id="row-' + fila + '-item" data-id="' + fila + '" name="' + fila + '" class="form-control select2 txtProducto"></select>' +
                     '</div>',
-                    '<input type="text" id="row-' + fila + '-cantidad" name="' + fila + '" value="" class="form-control text-right txtCantidad" disabled>',
+                    '<input type="text" id="row-' + fila + '-cantidad" name="' + fila + '" value="" class="form-control text-end txtCantidad" disabled>',
                     '<input type="text" id="row-' + fila + '-UDM" name="' + fila + '" value="" class="form-control" disabled>',
-                    '<input type="text" id="row-' + fila + '-PU" name="' + fila + '" value="" class="form-control text-right txtPrecioUnitario" disabled>',
-                    '<input type="text" id="row-' + fila + '-PT" name="' + fila + '" value="" class="form-control text-right txtTotal" disabled>'
+                    '<input type="text" id="row-' + fila + '-PU" name="' + fila + '" value="" class="form-control text-end txtPrecioUnitario" disabled>',
+                    '<input type="text" id="row-' + fila + '-PT" name="' + fila + '" value="" class="form-control text-end txtTotal" disabled>'
     ]).draw(true);
 
     $('#row-' + self.fila + '-item').select2({
@@ -303,228 +311,96 @@ function agregarFilaTabla(item){
         }
     }).on('select2:select', function (e) {
           e.preventDefault();
-//        var data = e.params.data;
-//        console.log(data);
-//        var filaSel = $(e.currentTarget).attr('name');
-//
-//        $('#row-' + filaSel + '-UDM').val(data.und);
-//        $('#row-' + filaSel + '-cantidad').removeAttr('disabled', false).val('1.00');
-//        $('#row-' + filaSel + '-PU').removeAttr('disabled', false).val(data.precio);
-//        $('#row-' + filaSel + '-PU').attr('title', 'PC: ' + self.$cboMoneda.val() + ' ' + data.compra);
-//        if (data.stock == 0 && data.tipo == 1) {
-//            alert('Esta agregando un producto que no contiene stock, de todas formas lo puede vender si es que se tratara de un error.\nLuego de esto es recomendable ajustar el Stock. ')
-//        }
-//        self.funciones.calcularComprobante(self);
+          var data = e.params.data;
+          var filaSel = $(e.currentTarget).attr('name');
+
+          $('#row-' + filaSel + '-UDM').val(data.und);
+          $('#row-' + filaSel + '-cantidad').removeAttr('disabled', false).val('1');
+          $('#row-' + filaSel + '-PU').removeAttr('disabled', false).val(data.precio);
+
+          calcularComprobante();
           eliminarProductosVacios();
           agregarFilaTabla(null);
     }).on('select2:unselecting', function (e) {
           e.preventDefault();
-//        self.funciones.calcularComprobante(self);
+          calcularComprobante();
           eliminarProductosVacios();
           agregarFilaTabla(null);
     });
 
 }
 
-function previsualizar(elemento) {
-    
-    var input = elemento;
-    var url = $(elemento).val();
-    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-
-    if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-
-        var reader = new FileReader();
-        reader.onload = function (e) {
-           img_venta.attr('src', e.target.result);
-        }
-       reader.readAsDataURL(input.files[0]);
-    }
-}
-
-function agregarArticulo(){
-
-    form_registro_venta_validation.resetForm(false);
-
-    hid_codigo_venta.val(CADENA_VACIA);
-    h5_titulo.html("Nuevo Producto");
-    txt_titulo.val(CADENA_VACIA);
-    txt_sku.val(CADENA_VACIA);
-    txt_descripcion_corta.val(CADENA_VACIA);
-    txt_descripcion_larga.val(CADENA_VACIA);
-    sel_categoria.prop("selectedIndex", 0);
-    txt_precio.val(CADENA_VACIA);
-    txt_stock.val(CADENA_VACIA);
-    txt_observaciones.val(CADENA_VACIA);
-    img_venta.attr('src', "img/product/sinimagen.jpg");
-    file.val(CADENA_VACIA);
-    modal_venta.modal("show");
-}
-
-function cargarArticulo(codigoArticulo){
-
-	$.ajax({
-        type:"GET",
-        contentType : "application/json",
-        accept: 'text/plain',
-        url : '/buscarventa?codigoArticulo=' + codigoArticulo,
-        dataType: 'json',
-        beforeSend: function(xhr) {
-        	loadding(true);
-        },
-        error: function (xhr, status, error) {
-            loadding(false);
-
-            if (xhr.status === HttpStatus.UnprocessableEntity) {
-                mostrarMensajeAdvertencia("No se pudo cargar el producto", xhr.responseJSON.message);
-            }
-
-            if (xhr.status == HttpStatus.InternalServerError) {
-
-                mostrarMensajeError(ERROR_GENERICO);
-            }
-
-        },
-        success:function(result,textStatus,xhr){
-            loadding(false);
-			if(xhr.status == HttpStatus.OK){
-                cargarModalArticulo(result);
-            }
-
-        }
-    });
-}
-
-function eliminarArticulo(codigoArticulo){
-
-	$.ajax({
-        type:"DELETE",
-        contentType : "application/json",
-        accept: 'text/plain',
-        url : '/eliminarventa?codigoArticulo=' + codigoArticulo,
-        dataType: 'text',
-        beforeSend: function(xhr) {
-        	loadding(true);
-        },
-        error: function (xhr, status, error) {
-            loadding(false);
-
-            if (xhr.status === HttpStatus.UnprocessableEntity) {
-                var data = JSON.parse(xhr.responseText);
-                mostrarMensajeAdvertencia("No se pudo eliminar el Producto", data.message);
-            }
-
-            if (xhr.status == HttpStatus.InternalServerError) {
-
-                mostrarMensajeError(ERROR_GENERICO);
-            }
-
-        },
-        success:function(result,textStatus,xhr){
-
-			if(xhr.status == HttpStatus.OK){
-
-                loadding(false);
-
-			    mostrarMensajeOK("Buen Trabajo!", "Producto Eliminado Satisfactoriamente");
-
-			    table.clear();
-                table.ajax.reload(null, true);
-
-                $('body,html').animate({
-                    scrollTop: 0
-                }, 800);
-            }
-        }
-    });
-}
-
-function cargarModalArticulo(venta) {
-
-    form_registro_venta_validation.resetForm(false);
-
-    hid_codigo_venta.val(venta.codigoArticulo);
-    h5_titulo.html("Producto " + venta.codigoArticulo);
-    txt_titulo.val(venta.titulo);
-    txt_sku.val(venta.codigoEstandar);
-    txt_descripcion_corta.val(venta.descripcionCorta);
-    txt_descripcion_larga.val(venta.descripcionLarga);
-    sel_categoria.val(venta.tipoArticulo.codigoTipoArticulo);
-    txt_precio.val(venta.precioUnitario);
-    txt_stock.val(venta.stock);
-    txt_observaciones.val(venta.observaciones);
-    if(venta.imagenString === null) {
-        img_venta.attr('src', "img/product/sinimagen.jpg");
-    } else {
-        img_venta.attr('src', venta.imagenString);
-    }
-    file.val(CADENA_VACIA);
-    modal_venta.modal("show");
-}
-
-function guardarArticulo() {
+function guardarVenta() {
 
     var venta = {}
-    venta["codigoArticulo"] = hid_codigo_venta.val();
-    venta["codigoEstandar"] = txt_sku.val();
-    venta["titulo"] = txt_titulo.val();
-    venta["descripcionCorta"] = txt_descripcion_corta.val();
-    venta["descripcionLarga"] = txt_descripcion_larga.val();
-    venta["codigoTipoArticulo"] = sel_categoria.val();
-    venta["observaciones"] = txt_observaciones.val();
-    venta["precioUnitario"] = txt_precio.val();
-    venta["stock"] = txt_stock.val();
-    venta["imagen"] = btoa(img_venta.attr('src'));
+    venta["codigoTipoComprobante"] = sel_tipo_comprobante.val();
+    venta["serie"] = sel_serie.val();
+    venta["fechaEmision"] = txt_fecha_emision.val();
+    venta["fechaVencimiento"] = txt_fecha_vencimiento.val();
+    venta["codigoCliente"] = txt_cliente.val();
+
+    var detalle = [];
+    $(".txtProducto").each(function (index, obj) {
+
+        var idFila = obj.name;
+        var comboProd = $('#row-' + idFila + '-item').select2('data')[0];
+        if (comboProd != undefined) {
+            var fila = {
+                codigoArticulo: comboProd.id,
+                cantidad: $('#row-' + idFila + '-cantidad').val(),
+                precioUnitario: $('#row-' + idFila + '-PU').val(),
+                precioTotal: $('#row-' + idFila + '-PU').val() * $('#row-' + idFila + '-cantidad').val()
+            };
+            detalle.push(fila);
+        }
+    });
+
+    venta["detalle"] = detalle;
+
+    venta["glosa"] = txt_glosa.val();
+    venta["subtotal"] = txt_subtotal.val();
+    venta["igv"] = txt_monto_igv.val();
+    venta["total"] = txt_total.val();
 
     var ventaJson = JSON.stringify(venta);
 
-    var formData = new FormData();
-
-    formData.append('registro', new Blob([ventaJson], {
-    	type: "application/json"
-    }));
-
     $.ajax({
-    	type:"POST",
-    	contentType: false,
-    	processData: false,
-    	url : '/guardarventa',
-    	data: formData,
-    	beforeSend: function(xhr) {
-    		loadding(true);
-    	},
+        type: "POST",
+        contentType: "application/json",
+        accept: 'text/plain',
+        url: '/guardarventa',
+        data: JSON.stringify(venta),
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            loadding(true);
+        },
         error: function (xhr, status, error) {
             loadding(false);
 
             if (xhr.status === HttpStatus.UnprocessableEntity) {
-                var data = JSON.parse(xhr.responseText);
-                mostrarMensajeAdvertencia("No se pudo guardar el Producto", data.message);
+                mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", xhr.responseJSON.message);
             }
 
             if (xhr.status == HttpStatus.InternalServerError) {
-
                 mostrarMensajeError(ERROR_GENERICO);
             }
 
         },
-    	success:function(resultado,textStatus,xhr){
+        success: function (result, textStatus, xhr) {
+
             loadding(false);
 
-    		if(xhr.status == HttpStatus.OK) {
+            if (xhr.status == HttpStatus.OK) {
 
-    			mostrarMensajeOK("Buen Trabajo!", "Producto Guardado Satisfactoriamente");
+                mostrarMensajeOK("Buen Trabajo!", "Comprobante Guardado Satisfactoriamente");
 
-    			table.clear();
-                table.ajax.reload(null, true);
-
-                modal_venta.modal("hide");
+                table.clear();
 
                 $('body,html').animate({
                     scrollTop: 0
                 }, 800);
-    		}
-
-    	}
+            }
+        }
     });
 
 }
