@@ -68,6 +68,7 @@ function inicializarComponentes(){
      validacionFormularioRegistroVenta();
 
      consultarCliente();
+
 }
 
 function consultarCliente() {
@@ -137,6 +138,14 @@ function inicializarEventos(){
 
         form_registro_venta_validation.validate().then(function(status) {
             if(status === 'Valid') {
+                if(txt_documento.val() == CADENA_VACIA) {
+                    mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", "Debe seleccionar el cliente");
+                    return;
+                }
+                if(txt_total.val() == '0.00') {
+                    mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", "Debe agregar al menos un producto");
+                    return;
+                }
                 guardarVenta();
             }
         });
