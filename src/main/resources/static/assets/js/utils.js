@@ -13,8 +13,8 @@ var HttpStatus = {
 };
 
 var TipoComprobante = {
-	FACTURA : "01",
-	BOLETA	: "02"
+	FACTURA : "TC01",
+	BOLETA	: "TC02"
 };
 
 

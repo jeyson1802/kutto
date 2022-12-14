@@ -21,11 +21,11 @@ public class SerieRestController {
     @Autowired
     private SerieService serieService;
 
-    @GetMapping("/listarseriespornombres")
+    @GetMapping("/listarseriesportipocomprobante")
     public ResponseEntity<List<SerieDto>> listarSeriesPoTipoComprobante(@RequestParam("tipocomprobante") String tipocomprobante) throws Exception {
 
         logger.info("Inicio listarseriespornombres.......");
-        List<SerieDto> litsSerieDto = serieService.listarSeriesPorNombresConTipoDocumento(nombres, tipodocumento);
+        List<SerieDto> litsSerieDto = serieService.listarSeriesPorTipoComprobante(tipocomprobante);
         logger.info("Fin listarseriespornombres.......");
 
         return new ResponseEntity<>(litsSerieDto, HttpStatus.OK);

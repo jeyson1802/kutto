@@ -1,73 +1,49 @@
-package com.kutto.plataforma.model;
+package com.kutto.plataforma.dto;
+
+import com.kutto.plataforma.model.Articulo;
+import com.kutto.plataforma.model.Comprobante;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Date;
 
-@Entity
-@Table(name = "tbl_detalle_comprobante")
-public class DetalleComprobante {
-    @Id
-    @Column(name = "V_COD_DETALLE_COMPROBANTE", nullable = false)
-    private String codigoDetalleComprobante;
+public class DetalleComprobanteDto {
+    private String codigoComprobante;
 
-    @ManyToOne
-    @JoinColumn(name = "V_COD_COMPROBANTE", nullable = false)
-    private Comprobante comprobante;
+    private ArticuloDto articulo;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "V_COD_ARTICULO", nullable = false)
-    private Articulo articulo;
-
-    @Column(name = "N_CANTIDAD", nullable = false)
     private Integer cantidad;
 
-    @Column(name = "N_PRECIO_UNITARIO", nullable = false)
     private BigDecimal precioUnitario;
 
-    @Column(name = "N_PRECIO_TOTAL", nullable = false)
     private BigDecimal precioTotal;
 
-    @Column(name = "N_ACTIVO", nullable = false, length = 1)
     private Integer activo;
 
-    @Column(name = "V_COD_USU_REGISTRA", nullable = false, length = 20)
     private String usuarioRegistro;
 
-    @Column(name = "D_FEC_REGISTRO", nullable = false)
     private Instant fechaRegistro;
 
-    @Column(name = "V_COD_USU_MODIFICA", length = 20)
     private String usuarioModificacion;
 
-    @Column(name = "D_FEC_MODIFICACION")
     private Instant fechaModificacion;
 
-    public DetalleComprobante() {
+    public DetalleComprobanteDto() {
     }
 
-    public String getCodigoDetalleComprobante() {
-        return codigoDetalleComprobante;
+    public String getCodigoComprobante() {
+        return codigoComprobante;
     }
 
-    public void setCodigoDetalleComprobante(String codigoDetalleComprobante) {
-        this.codigoDetalleComprobante = codigoDetalleComprobante;
+    public void setCodigoComprobante(String codigoComprobante) {
+        this.codigoComprobante = codigoComprobante;
     }
 
-    public Comprobante getComprobante() {
-        return comprobante;
-    }
-
-    public void setComprobante(Comprobante comprobante) {
-        this.comprobante = comprobante;
-    }
-
-    public Articulo getArticulo() {
+    public ArticuloDto getArticulo() {
         return articulo;
     }
 
-    public void setArticulo(Articulo articulo) {
+    public void setArticulo(ArticuloDto articulo) {
         this.articulo = articulo;
     }
 
@@ -137,9 +113,8 @@ public class DetalleComprobante {
 
     @Override
     public String toString() {
-        return "DetalleComprobante{" +
-                "codigoDetalleComprobante='" + codigoDetalleComprobante + '\'' +
-                ", comprobante=" + comprobante +
+        return "DetalleComprobanteDto{" +
+                "codigoComprobante='" + codigoComprobante + '\'' +
                 ", articulo=" + articulo +
                 ", cantidad=" + cantidad +
                 ", precioUnitario=" + precioUnitario +

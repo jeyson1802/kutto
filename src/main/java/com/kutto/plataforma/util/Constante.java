@@ -25,6 +25,9 @@ public class Constante {
 
 	public static final String PREFIJO_TIPO_ARTICULO = "T";
 	public static final String PREFIJO_CITA_DISPONIBLE = "CD";
+	public static final String PREFIJO_COMPROBANTE = "CP";
+	public static final String PREFIJO_DETALLE_COMPROBANTE = "DC";
+
 
 	public static final String CODIGO_FACTURA = "TC01";
 	public static final String CODIGO_BOLETA = "TC02";

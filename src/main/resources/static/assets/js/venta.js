@@ -69,6 +69,45 @@ function inicializarComponentes(){
 
      consultarCliente();
 
+     cargarSeries();
+}
+
+function inicializarEventos(){
+
+   btn_guardar.on('click', function() {
+
+        form_registro_venta_validation.validate().then(function(status) {
+            if(status === 'Valid') {
+                if(txt_documento.val() == CADENA_VACIA) {
+                    mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", "Debe seleccionar el cliente");
+                    return;
+                }
+                if(txt_total.val() == '0.00') {
+                    mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", "Debe agregar al menos un producto");
+                    return;
+                }
+                guardarVenta();
+            }
+        });
+
+   });
+
+   sel_tipo_comprobante.on('change', function() {
+        cambioTipoComprobante();
+        cargarSeries();
+   });
+
+    $('body').on('keyup', '.txtCantidad,.txtPrecioUnitario', function (e) {
+       if (e.which == 13) return false;
+       var n = $(this).val();
+       if (n >= 0) {
+           calcularComprobante();
+       }
+       else {
+           $(this).val('');
+       }
+   });
+
 }
 
 function consultarCliente() {
@@ -132,43 +171,6 @@ function consultarCliente() {
           consultarCliente();
     });
 }
-function inicializarEventos(){
-
-   btn_guardar.on('click', function() {
-
-        form_registro_venta_validation.validate().then(function(status) {
-            if(status === 'Valid') {
-                if(txt_documento.val() == CADENA_VACIA) {
-                    mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", "Debe seleccionar el cliente");
-                    return;
-                }
-                if(txt_total.val() == '0.00') {
-                    mostrarMensajeAdvertencia("No se pudo guardar el Comprobante", "Debe agregar al menos un producto");
-                    return;
-                }
-                guardarVenta();
-            }
-        });
-
-   });
-
-   sel_tipo_comprobante.on('change', function() {
-        cambioTipoComprobante();
-   });
-
-   $('.txtPrecioUnitario,.txtCantidad').on('keyup', function (e) {
-
-       if (e.which == 13) return false;
-       var n = $(this).val();
-       if (n >= 0) {
-           calcularComprobante();
-       }
-       else {
-           $(this).val('');
-       }
-   });
-
-}
 
 function cambioTipoComprobante() {
 
@@ -183,6 +185,47 @@ function cambioTipoComprobante() {
         tr_subtotal.hide();
         tr_igv.hide();
     }
+}
+
+function cargarSeries() {
+
+    $.ajax({
+        type:"GET",
+        contentType : "application/json",
+        accept: 'text/plain',
+        url : '/listarseriesportipocomprobante?tipocomprobante=' + sel_tipo_comprobante.val(),
+        dataType: 'json',
+        beforeSend: function(xhr) {
+        	loadding(true);
+        },
+        error: function (xhr, status, error) {
+            loadding(false);
+
+            if (xhr.status === HttpStatus.UnprocessableEntity) {
+                mostrarMensajeAdvertencia("No se pudo cargar el Horario", xhr.responseJSON.message);
+            }
+
+            if (xhr.status == HttpStatus.InternalServerError) {
+
+                mostrarMensajeError(ERROR_GENERICO);
+            }
+
+        },
+        success:function(result,textStatus,xhr) {
+
+            loadding(false);
+
+    		if(xhr.status == HttpStatus.OK){
+
+                sel_serie.find('option').remove();
+
+                result.forEach(serie => {
+                    sel_serie.append($('<option />').val(serie.codigoSerie).html(serie.codigoSerie));
+                });
+
+            }
+        }
+    });
 }
 
 function calcularComprobante() {
@@ -399,10 +442,14 @@ function guardarVenta() {
 
     var venta = {}
     venta["codigoTipoComprobante"] = sel_tipo_comprobante.val();
-    venta["serie"] = sel_serie.val();
+    venta["codigoSerie"] = sel_serie.val();
     venta["fechaEmision"] = txt_fecha_emision.val();
     venta["fechaVencimiento"] = txt_fecha_vencimiento.val();
     venta["codigoCliente"] = sel_cliente.val();
+    venta["glosa"] = txt_glosa.val();
+    venta["subtotal"] = txt_subtotal.val();
+    venta["igv"] = txt_monto_igv.val();
+    venta["total"] = txt_total.val();
 
     var detalle = [];
     $(".txtProducto").each(function (index, obj) {
@@ -414,20 +461,13 @@ function guardarVenta() {
                 codigoArticulo: comboProd.id,
                 cantidad: $('#row-' + idFila + '-cantidad').val(),
                 precioUnitario: $('#row-' + idFila + '-PU').val(),
-                precioTotal: $('#row-' + idFila + '-PU').val() * $('#row-' + idFila + '-cantidad').val()
+                precioTotal: parseFloat($('#row-' + idFila + '-PU').val() * $('#row-' + idFila + '-cantidad').val()).toFixed(2)
             };
             detalle.push(fila);
         }
     });
 
-    venta["detalle"] = detalle;
-
-    venta["glosa"] = txt_glosa.val();
-    venta["subtotal"] = txt_subtotal.val();
-    venta["igv"] = txt_monto_igv.val();
-    venta["total"] = txt_total.val();
-
-    var ventaJson = JSON.stringify(venta);
+    venta["detalleComprobante"] = detalle;
 
     $.ajax({
         type: "POST",
@@ -457,9 +497,9 @@ function guardarVenta() {
 
             if (xhr.status == HttpStatus.OK) {
 
-                mostrarMensajeOK("Buen Trabajo!", "Comprobante Guardado Satisfactoriamente");
+                mostrarMensajeOK("Comprobante Generado Satisfactoriamente", result.tipoComprobante.descripcion + " - " + result.codigoSerie + " - " + result.numero);
 
-                table.clear();
+                limpiarPantalla();
 
                 $('body,html').animate({
                     scrollTop: 0
@@ -468,4 +508,23 @@ function guardarVenta() {
         }
     });
 
+}
+
+function limpiarPantalla() {
+
+    sel_tipo_comprobante.prop("selectedIndex", 0);
+    sel_tipo_comprobante.change();
+    txt_fecha_emision.val(CADENA_VACIA);
+    txt_fecha_vencimiento.val(CADENA_VACIA);
+    sel_cliente.val(CADENA_VACIA);
+    txt_documento.val(CADENA_VACIA);
+    txt_email.val(CADENA_VACIA);
+    txt_direccion.val(CADENA_VACIA);
+
+    form_registro_venta_validation.resetForm(false);
+
+    table.clear().draw();
+
+    agregarFilaTabla(null);
+    consultarCliente();
 }
