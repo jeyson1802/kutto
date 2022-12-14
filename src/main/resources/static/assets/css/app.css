@@ -65,7 +65,6 @@ table.dataTable tbody tr td {
 }
 
 .auth-body-bg {
-    background-image: url(../../img/bg/testimonial_bg.jpg) !important;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -4002,7 +4001,6 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 }
 
 .auth-body-bg {
-  background-image: url(../images/auth-bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

@@ -21,8 +21,24 @@
 									<div class="row">
 										<div class="col-lg-4">
 											<div>
-												<a href="/categoria" class="dropdown-item">Categorías</a>
-												<a href="/horarios" class="dropdown-item">Horarios</a>
+												<a href="/categoria" class="dropdown-item">Categorías Producto</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+
+							<li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ATENCION')">
+								<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-clientes" role="button">
+									<i class="ri-user-2-line me-2"></i>Clientes<div class="arrow-down"></div>
+								</a>
+
+								<div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-xs"
+									 aria-labelledby="topnav-clientes">
+									<div class="row">
+										<div class="col-lg-4">
+											<div>
+												<a href="/clientes" class="dropdown-item">Mantenimiento</a>
 											</div>
 										</div>
 									</div>
@@ -47,16 +63,17 @@
 							</li>
 
 							<li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_ATENCION')">
-								<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-citas" role="button">
-									<i class="ri-calendar-event-line me-2"></i>Citas<div class="arrow-down"></div>
+								<a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-ventas" role="button">
+									<i class="ri-bill-line me-2"></i>Ventas<div class="arrow-down"></div>
 								</a>
 
 								<div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-xs"
-									 aria-labelledby="topnav-citas">
+									 aria-labelledby="topnav-ventas">
 									<div class="row">
 										<div class="col-lg-4">
 											<div>
-												<a href="/citas" class="dropdown-item">Atención</a>
+												<a href="/venta" class="dropdown-item">Nuevo</a>
+												<a href="/ventas" class="dropdown-item">Reporte</a>
 											</div>
 										</div>
 									</div>
