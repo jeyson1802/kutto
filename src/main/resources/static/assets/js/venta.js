@@ -4,7 +4,7 @@ var sel_tipo_comprobante;
 var sel_serie;
 var txt_fecha_emision;
 var txt_fecha_vencimiento;
-var txt_cliente;
+var sel_cliente;
 var txt_documento;
 var txt_email;
 var txt_direccion;
@@ -32,7 +32,7 @@ function inicializarVariables() {
     sel_serie = $("#sel_serie");
     txt_fecha_emision = $("#txt_fecha_emision");
     txt_fecha_vencimiento = $("#txt_fecha_vencimiento");
-    txt_cliente = $("#txt_cliente");
+    sel_cliente = $("#sel_cliente");
     txt_documento = $("#txt_documento");
     txt_email = $("#txt_email");
     txt_direccion = $("#txt_direccion");
@@ -66,8 +66,71 @@ function inicializarComponentes(){
      agregarFilaTabla(null);
 
      validacionFormularioRegistroVenta();
+
+     consultarCliente();
 }
 
+function consultarCliente() {
+
+
+    sel_cliente.select2({
+        placeholder: 'Escriba el nombre del Cliente',
+        minimumInputLength: 3,
+        width: '100%',
+        language: "es",
+        allowClear: true,
+        ajax: {
+            url: '/listarclientespornombres',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            delay: 250,
+            data: function (params) {
+                if (!params.term) params.term = '';
+                var query = {
+                    nombres: params.term,
+                    tipodocumento: sel_tipo_comprobante.val()
+                }
+                return query;
+            },
+            processResults: function (data, page) {
+
+                var parsed = [];
+                try {
+                    parsed = $.map(data, function (item) {
+                        return {
+                            id: item.codigoCliente,
+                            text: item.nombres,
+                            documento: item.documento,
+                            correo: item.correo,
+                            direccion: item.direccion
+                        };
+                    });
+                    //console.log(parsed);
+                } catch (e) {
+                    alert('Error en la búsqueda');
+                }
+
+                return {
+                    results: parsed
+                };
+            }
+        }
+    }).on('select2:select', function (e) {
+          e.preventDefault();
+          var data = e.params.data;
+          txt_documento.val(data.documento);
+          txt_email.val(data.correo);
+          txt_direccion.val(data.direccion);
+
+    }).on('select2:unselecting', function (e) {
+          e.preventDefault();
+          txt_documento.val(CADENA_VACIA);
+          txt_email.val(CADENA_VACIA);
+          txt_direccion.val(CADENA_VACIA);
+          consultarCliente();
+    });
+}
 function inicializarEventos(){
 
    btn_guardar.on('click', function() {
@@ -193,13 +256,6 @@ function validacionFormularioRegistroVenta() {
                         validators: {
                             notEmpty: {
                                 message: 'La fecha de vencimiento es obligatoria.',
-                            },
-                        },
-                    },
-                    txt_cliente: {
-                        validators: {
-                            notEmpty: {
-                                message: 'El cliente es obligatorio.',
                             },
                         },
                     },
@@ -337,7 +393,7 @@ function guardarVenta() {
     venta["serie"] = sel_serie.val();
     venta["fechaEmision"] = txt_fecha_emision.val();
     venta["fechaVencimiento"] = txt_fecha_vencimiento.val();
-    venta["codigoCliente"] = txt_cliente.val();
+    venta["codigoCliente"] = sel_cliente.val();
 
     var detalle = [];
     $(".txtProducto").each(function (index, obj) {
