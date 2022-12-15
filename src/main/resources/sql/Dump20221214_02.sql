@@ -1,0 +1,3 @@
+INSERT INTO `kutto`.`tbl_parametrica` (`V_PREFIJO`, `N_VALOR_SGTE`, `V_DESCRIPCION`, `N_ACTIVO`, `V_COD_USU_REGISTRA`, `D_FEC_REGISTRO`) VALUES ('CP', '1', 'Tabla Comprobante', '1', 'ADMIN', '2022-12-06 00:00:00');
+INSERT INTO `kutto`.`tbl_parametrica` (`V_PREFIJO`, `N_VALOR_SGTE`, `V_DESCRIPCION`, `N_ACTIVO`, `V_COD_USU_REGISTRA`, `D_FEC_REGISTRO`) VALUES ('DC', '1', 'Tabla Detalle Comprobante', '1', 'ADMIN', '2022-12-06 00:00:00');
+INSERT INTO `kutto`.`tbl_parametrica` (`V_PREFIJO`, `N_VALOR_SGTE`, `V_DESCRIPCION`, `N_ACTIVO`, `V_COD_USU_REGISTRA`, `D_FEC_REGISTRO`) VALUES ('CL', '5', 'Tabla Cliente', '1', 'ADMIN', '2022-12-06 00:00:00');
