@@ -1,6 +1,7 @@
 package com.kutto.plataforma.rest;
 
 import com.kutto.plataforma.dto.ArticuloDto;
+import com.kutto.plataforma.dto.ClienteDto;
 import com.kutto.plataforma.dto.ComprobanteDto;
 import com.kutto.plataforma.model.Comprobante;
 import com.kutto.plataforma.request.RequestGuardarArticulo;
@@ -35,6 +36,16 @@ public class ComprobanteRestController {
 
         return new ResponseEntity<>(comprobanteDto, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/listarventas")
+    public ResponseEntity<List<ComprobanteDto>> listarVentas() throws Exception {
+
+        logger.info("Inicio listarVentas.......");
+        List<ComprobanteDto> litsComprobanteDto = comprobanteService.listarVentas();
+        logger.info("Fin listarVentas.......");
+
+        return new ResponseEntity<>(litsComprobanteDto, HttpStatus.OK);
     }
 
 }

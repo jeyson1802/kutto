@@ -78,4 +78,11 @@ public class AdminController {
 
         return "clientes";
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ATENCION')")
+    @GetMapping("/ventas")
+    public String ventas(Model model) throws Exception {
+
+        return "ventas";
+    }
 }

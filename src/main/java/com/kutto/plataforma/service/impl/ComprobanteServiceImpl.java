@@ -1,5 +1,6 @@
 package com.kutto.plataforma.service.impl;
 
+import com.kutto.plataforma.dto.ClienteDto;
 import com.kutto.plataforma.dto.ComprobanteDto;
 import com.kutto.plataforma.model.*;
 import com.kutto.plataforma.repository.*;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ComprobanteServiceImpl implements ComprobanteService {
@@ -51,6 +53,15 @@ public class ComprobanteServiceImpl implements ComprobanteService {
     @Autowired
     private DetalleComprobanteRepository detalleComprobanteRepository;
 
+    @Override
+    public List<ComprobanteDto> listarVentas() throws Exception {
+
+        List<Comprobante> listComprobante = comprobanteRepository.findByActivo(Constante.COD_ACTIVO);
+
+        List<ComprobanteDto> listComprobanteDto = listComprobante.stream().map(comprobante -> modelMapper.map(comprobante, ComprobanteDto.class)).collect(Collectors.toList());
+
+        return  listComprobanteDto;
+    }
     @Override
     public ComprobanteDto guardarVenta(RequestGuardarVenta requestGuardarVenta) throws Exception {
 

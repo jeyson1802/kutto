@@ -20,7 +20,7 @@ var TipoComprobante = {
 
 $.date = function(dateObject) {
     var dateAr = dateObject.split('-');
-    var newDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];
+    var newDate = dateAr[2].substr(0,2) + '/' + dateAr[1] + '/' + dateAr[0];
     return newDate;
 };
 

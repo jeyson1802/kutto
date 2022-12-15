@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public class DetalleComprobanteDto {
-    private String codigoComprobante;
+    private String codigoDetalleComprobante;
 
     private ArticuloDto articulo;
 
@@ -31,12 +31,12 @@ public class DetalleComprobanteDto {
     public DetalleComprobanteDto() {
     }
 
-    public String getCodigoComprobante() {
-        return codigoComprobante;
+    public String getCodigoDetalleComprobante() {
+        return codigoDetalleComprobante;
     }
 
-    public void setCodigoComprobante(String codigoComprobante) {
-        this.codigoComprobante = codigoComprobante;
+    public void setCodigoDetalleComprobante(String codigoDetalleComprobante) {
+        this.codigoDetalleComprobante = codigoDetalleComprobante;
     }
 
     public ArticuloDto getArticulo() {
@@ -114,7 +114,7 @@ public class DetalleComprobanteDto {
     @Override
     public String toString() {
         return "DetalleComprobanteDto{" +
-                "codigoComprobante='" + codigoComprobante + '\'' +
+                "codigoDetalleComprobante='" + codigoDetalleComprobante + '\'' +
                 ", articulo=" + articulo +
                 ", cantidad=" + cantidad +
                 ", precioUnitario=" + precioUnitario +

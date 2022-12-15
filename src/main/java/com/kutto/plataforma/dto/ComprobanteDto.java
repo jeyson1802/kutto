@@ -1,5 +1,6 @@
 package com.kutto.plataforma.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kutto.plataforma.model.Cliente;
 import com.kutto.plataforma.model.DetalleComprobante;
 import com.kutto.plataforma.model.TipoComprobante;
